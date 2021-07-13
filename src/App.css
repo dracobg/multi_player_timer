@@ -36,8 +36,8 @@
 }
 
 .clockDiv {
-  width: 40%;
-  height: 40%;
+  width: 400px;
+  height: 200px;
   margin: 20px;
   background-color: lightgray;
   border-radius: 10px;
@@ -45,10 +45,16 @@
 }
 
 .clock {
-  width: 65%;
+  width: 200px;
   background-color: gray;
-  border-radius: 10px;
-  height: 45%;
+  border-radius: 15px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.clock:hover {
+  color: white;
+  border-color: white;
 }
 
 .clock.playerSelected {
@@ -88,12 +94,10 @@
 }
 
 .timerDiv {
-  width: 40%;
-  height: 23%;
+  width: 100px;
+  height: 38px;
   margin: 10px auto;
   background-color: gray;
-  border-radius: 10px;
-  padding: 0px;
 }
 
 .timerDiv.playerSelected {
@@ -104,12 +108,42 @@
   background-color: red;
 }
 
-.timerDiv.low {
+.timerDiv.critical {
   background-color: orange;
+}
+
+.timerDiv.low {
+  background-color: lightgreen;
 }
 
 .playerTimer {
   color: white;
   font-size: 30px;
+  font-weight: bold;
+}
+
+.extDiv {
+  width: 265px;
+  height: 30px;
+  margin: auto;
+  background-color: gray;
+  border-radius: 7px;
+}
+
+.extDiv.playerSelected {
+  background-color: green;
+}
+
+.extDiv.zero {
+  background-color: red;
+}
+
+.extDiv.low {
+  background-color: orange;
+}
+
+.playerExt {
+  color: white;
+  font-size: 20px;
   font-weight: bold;
 }

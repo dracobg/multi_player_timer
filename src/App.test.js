@@ -23,18 +23,18 @@ let wrapper =
       })
 
       it('Then it displays buttons to select the number of players', () => {
-          expect(wrapper.find('#selectPlayerNumber')).to.have.length(1)
-          expect(wrapper.find('#noPlayersLabel')).to.have.length(1)
-          expect(wrapper.find('#noPlayersLabel').prop('className')).to.equal('noPlayersLabel')
-          expect(wrapper.find('#noPlayersLabel').text()).to.equal('Select number of players - 2 or 4')
-          expect(wrapper.find('#selectPlayers2')).to.have.length(1)
-          expect(wrapper.find('#selectPlayers2').prop('className')).to.equal('selectPlayers')
-          expect(wrapper.find('#selectPlayers2').text()).to.equal('2')
-          expect(wrapper.find('#selectPlayers2').prop('onClick').name).to.equal('bound handleSelectPlayerNumber')
-          expect(wrapper.find('#selectPlayers4')).to.have.length(1)
-          expect(wrapper.find('#selectPlayers4').prop('className')).to.equal('selectPlayers selected')
-          expect(wrapper.find('#selectPlayers4').text()).to.equal('4')
-          expect(wrapper.find('#selectPlayers4').prop('onClick').name).to.equal('bound handleSelectPlayerNumber')
+        expect(wrapper.find('#selectPlayerNumber')).to.have.length(1)
+        expect(wrapper.find('#noPlayersLabel')).to.have.length(1)
+        expect(wrapper.find('#noPlayersLabel').prop('className')).to.equal('noPlayersLabel')
+        expect(wrapper.find('#noPlayersLabel').text()).to.equal('Select number of players - 2 or 4')
+        expect(wrapper.find('#selectPlayers2')).to.have.length(1)
+        expect(wrapper.find('#selectPlayers2').prop('className')).to.equal('selectPlayers')
+        expect(wrapper.find('#selectPlayers2').text()).to.equal('2')
+        expect(wrapper.find('#selectPlayers2').prop('onClick').name).to.equal('bound handleSelectPlayerNumber')
+        expect(wrapper.find('#selectPlayers4')).to.have.length(1)
+        expect(wrapper.find('#selectPlayers4').prop('className')).to.equal('selectPlayers selected')
+        expect(wrapper.find('#selectPlayers4').text()).to.equal('4')
+        expect(wrapper.find('#selectPlayers4').prop('onClick').name).to.equal('bound handleSelectPlayerNumber')
       })
 
       it('Then it displays the input to select the time per player', () => {
@@ -62,7 +62,7 @@ let wrapper =
         expect(wrapper.find('#playerNameInput0').prop('size')).to.equal('20')
         expect(wrapper.find('#playerNameInput0').prop('maxLength')).to.equal('20')
         expect(wrapper.find('#playerNameInput0').prop('type')).to.equal('text')
-        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player Name 1')
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player 1 Name')
         expect(wrapper.find('#playerNameInput0').prop('onChange')).to.exist
         expect(wrapper.find('#playerBtn0')).to.have.length(1)
         expect(wrapper.find('#playerBtn0').prop('className')).to.equal('clock')
@@ -77,7 +77,7 @@ let wrapper =
         expect(wrapper.find('#playerNameInput1').prop('size')).to.equal('20')
         expect(wrapper.find('#playerNameInput1').prop('maxLength')).to.equal('20')
         expect(wrapper.find('#playerNameInput1').prop('type')).to.equal('text')
-        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player Name 2')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player 2 Name')
         expect(wrapper.find('#playerNameInput1').prop('onChange')).to.exist
         expect(wrapper.find('#playerBtn1')).to.have.length(1)
         expect(wrapper.find('#playerBtn1').prop('className')).to.equal('clock')
@@ -92,7 +92,7 @@ let wrapper =
         expect(wrapper.find('#playerNameInput2').prop('size')).to.equal('20')
         expect(wrapper.find('#playerNameInput2').prop('maxLength')).to.equal('20')
         expect(wrapper.find('#playerNameInput2').prop('type')).to.equal('text')
-        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player Name 3')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player 3 Name')
         expect(wrapper.find('#playerNameInput2').prop('onChange')).to.exist
         expect(wrapper.find('#playerBtn2')).to.have.length(1)
         expect(wrapper.find('#playerBtn2').prop('className')).to.equal('clock')
@@ -107,7 +107,7 @@ let wrapper =
         expect(wrapper.find('#playerNameInput3').prop('size')).to.equal('20')
         expect(wrapper.find('#playerNameInput3').prop('maxLength')).to.equal('20')
         expect(wrapper.find('#playerNameInput3').prop('type')).to.equal('text')
-        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player Name 4')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player 4 Name')
         expect(wrapper.find('#playerNameInput3').prop('onChange')).to.exist
         expect(wrapper.find('#playerBtn3')).to.have.length(1)
         expect(wrapper.find('#playerBtn3').prop('className')).to.equal('clock')
@@ -115,12 +115,11 @@ let wrapper =
         expect(wrapper.find('#playerClock3').prop('className')).to.equal('playerClock')
         expect(wrapper.find('#playerClock3').text()).to.equal('30 : 00')
       })
-    
 
       it('Then it displays the player 2-minute timers', () => {
         expect(wrapper.find('#timerDiv0')).to.have.length(1)
         expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
-        
+
         expect(wrapper.find('#playerTimer0')).to.have.length(1)
         expect(wrapper.find('#playerTimer0').prop('className')).to.equal('playerTimer')
         expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')

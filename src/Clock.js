@@ -8,7 +8,8 @@ function Clock(props) {
     const secondsDisplayTimer = props.timer % 60
 
     const ClassNameClock = props.clock === 0 ? 'clock zero' : props.clock < 300 ? 'clock low' : props.index === props.playerSelected ? 'clock playerSelected' : 'clock'
-    const ClassNameTimer = props.timer < 10 ? 'timerDiv zero' : props.timer < 30 ? 'timerDiv low' : props.index === props.playerSelected ? 'timerDiv playerSelected' : 'timerDiv'
+    const ClassNameTimer = props.timer === 0 ? 'timerDiv zero' : props.timer < 10 ? 'timerDiv critical' : props.timer < 30 ? 'timerDiv low' : props.index === props.playerSelected ? 'timerDiv playerSelected' : 'timerDiv'
+    const ClassNameExt = props.extensions === 0 ? 'extDiv zero' : props.extensions < 3 ? 'extDiv low' : props.index === props.playerSelected ? 'extDiv playerSelected' : 'extDiv'
 
     return (
         <div id={'clockDiv' + props.index} className='clockDiv'>
@@ -33,6 +34,12 @@ function Clock(props) {
                     {minutesDisplayTimer.toLocaleString('en-US', { minimumIntegerDigits: 1, useGrouping: false }) + ' : ' + secondsDisplayTimer.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
                 </div>
             </div>
+
+            <button id={'extDiv' + props.index} className={ClassNameExt} onClick={() => props.useExtension(props.index)}>
+                <div id={'playerExt' + props.index} className='playerExt'>
+                    {'Extensions Remaining: ' + props.extensions}
+                </div>
+            </button>
         </div>
     );
 }

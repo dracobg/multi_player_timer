@@ -8,15 +8,18 @@ const originalSecondsClock = originalMinutesClock * 60
 const originalMinutesTimer = 2
 const originalSecondsTimer = originalMinutesTimer * 60
 
+const originalExtensions = 5
+
 class App extends Component {
 
   constructor() {
     super()
     this.state = {
       numberMinutes: originalMinutesClock,
-      names: ['Player Name 1', 'Player Name 2', 'Player Name 3', 'Player Name 4'],
+      names: ['Player 1 Name', 'Player 2 Name', 'Player 3 Name', 'Player 4 Name'],
       clocks: [originalSecondsClock, originalSecondsClock, originalSecondsClock, originalSecondsClock],
       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
+      extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
       playerSelected: 5,
       started: false,
       playerQty: 4
@@ -27,6 +30,7 @@ class App extends Component {
     this.setSelectedPlayer = this.setSelectedPlayer.bind(this);
     this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this);
     this.displayClocks = this.displayClocks.bind(this);
+    this.useExtension = this.useExtension.bind(this);
   }
 
   componentDidMount() {
@@ -40,7 +44,7 @@ class App extends Component {
         if (this.state.timers[this.state.playerSelected] > 0) {
           tempTimers[this.state.playerSelected] = tempTimers[this.state.playerSelected] - 1
         }
-        
+
         this.setState({
           clocks: tempClocks,
           timers: tempTimers
@@ -75,23 +79,37 @@ class App extends Component {
     tempNames[index] = e.target.value
 
     this.setState({
-      mames: tempNames
+      names: tempNames
     })
   }
 
+  useExtension(index) {
+    if (this.state.playerSelected === index && this.state.timers[index] === 0 && this.state.extensions[index] > 0) {
+      const tempExtensions = this.state.extensions
+      tempExtensions[index] = this.state.extensions[index] - 1
+
+      this.setState({
+        extensions: tempExtensions,
+        timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
+      })
+    }
+  }
+
   setSelectedPlayer(indexPlayer) {
-    this.setState({
-      playerSelected: indexPlayer,
-      started: true,
-      timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
-    })
+    if (indexPlayer !== this.state.playerSelected) {
+      this.setState({
+        playerSelected: indexPlayer,
+        started: true,
+        timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
+      })
+    }
   }
 
   displayClocks() {
     let clockArray = []
     for (let n = 0; n < this.state.playerQty; n++) {
       clockArray.push(
-        <Clock key={n} index={n} playerName={this.state.names[n]} handleChangeName={this.handleChangeName} clock={this.state.clocks[n]} timer={this.state.timers[n]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
+        <Clock key={n} index={n} playerName={this.state.names[n]} handleChangeName={this.handleChangeName} clock={this.state.clocks[n]} timer={this.state.timers[n]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} extensions={this.state.extensions[n]} useExtension={this.useExtension} />
       )
     }
 
