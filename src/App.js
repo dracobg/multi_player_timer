@@ -31,10 +31,20 @@ class App extends Component {
 
   componentDidMount() {
     setInterval(() => {
+      let tempClocks = this.state.clocks
+      let tempTimers = this.state.timers
+
       if (this.state.started && this.state.clocks[this.state.playerSelected] > 0) {
-        let tempClocks = this.state.clocks
         tempClocks[this.state.playerSelected] = tempClocks[this.state.playerSelected] - 1
-        this.setState({ clocks: tempClocks })
+
+        if (this.state.timers[this.state.playerSelected] > 0) {
+          tempTimers[this.state.playerSelected] = tempTimers[this.state.playerSelected] - 1
+        }
+        
+        this.setState({
+          clocks: tempClocks,
+          timers: tempTimers
+        })
       }
     }, 1000)
   }
@@ -72,7 +82,8 @@ class App extends Component {
   setSelectedPlayer(indexPlayer) {
     this.setState({
       playerSelected: indexPlayer,
-      started: true
+      started: true,
+      timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
     })
   }
 

@@ -45,10 +45,10 @@
 }
 
 .clock {
-  width: 80%;
+  width: 65%;
   background-color: gray;
   border-radius: 10px;
-  height: 60%;
+  height: 45%;
 }
 
 .clock.playerSelected {
@@ -85,4 +85,31 @@
 
 .selectPlayers.selected {
   background-color: green;
+}
+
+.timerDiv {
+  width: 40%;
+  height: 23%;
+  margin: 10px auto;
+  background-color: gray;
+  border-radius: 10px;
+  padding: 0px;
+}
+
+.timerDiv.playerSelected {
+  background-color: green;
+}
+
+.timerDiv.zero {
+  background-color: red;
+}
+
+.timerDiv.low {
+  background-color: orange;
+}
+
+.playerTimer {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
 }

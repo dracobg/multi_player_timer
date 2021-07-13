@@ -7,7 +7,8 @@ function Clock(props) {
     const minutesDisplayTimer = Math.floor(props.timer / 60)
     const secondsDisplayTimer = props.timer % 60
 
-    const timerClassName = props.clock === 0 ? 'clock zero' : props.clock < 300 ? 'clock low' : props.index === props.playerSelected ? 'clock playerSelected' : 'clock'
+    const ClassNameClock = props.clock === 0 ? 'clock zero' : props.clock < 300 ? 'clock low' : props.index === props.playerSelected ? 'clock playerSelected' : 'clock'
+    const ClassNameTimer = props.timer < 10 ? 'timerDiv zero' : props.timer < 30 ? 'timerDiv low' : props.index === props.playerSelected ? 'timerDiv playerSelected' : 'timerDiv'
 
     return (
         <div id={'clockDiv' + props.index} className='clockDiv'>
@@ -21,15 +22,15 @@ function Clock(props) {
                 onChange={(e) => props.handleChangeName(e, props.index)}
             />
 
-            <button id={'playerBtn' + props.index} className={timerClassName} onClick={() => props.setSelectedPlayer(props.index)}>
+            <button id={'playerBtn' + props.index} className={ClassNameClock} onClick={() => props.setSelectedPlayer(props.index)}>
                 <div id={'playerClock' + props.index} className='playerClock'>
                     {minutesDisplayClock.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ' : ' + secondsDisplayClock.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
                 </div>
             </button>
 
-            <div id={'timerDiv' + props.index}>
+            <div id={'timerDiv' + props.index} className={ClassNameTimer}>
                 <div id={'playerTimer' + props.index} className='playerTimer'>
-                    {minutesDisplayTimer.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ' : ' + secondsDisplayTimer.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
+                    {minutesDisplayTimer.toLocaleString('en-US', { minimumIntegerDigits: 1, useGrouping: false }) + ' : ' + secondsDisplayTimer.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
                 </div>
             </div>
         </div>
