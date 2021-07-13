@@ -11,7 +11,7 @@ class App extends Component {
     super()
     this.state = {
       numberMinutes: originalMinutes,
-      names: ['Player Name', 'Player Name', 'Player Name', 'Player Name'],
+      names: ['Player Name 1', 'Player Name 2', 'Player Name 3', 'Player Name 4'],
       timers: [originalSeconds, originalSeconds, originalSeconds, originalSeconds],
       playerSelected: 0,
       started: false
@@ -22,7 +22,7 @@ class App extends Component {
     this.setSelectedPlayer = this.setSelectedPlayer.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     setInterval(() => {
       if (this.state.started && this.state.timers[this.state.playerSelected] > 0) {
         let tempTimers = this.state.timers
@@ -85,9 +85,9 @@ class App extends Component {
 
         <div id='clocksDiv' className='clocksDiv'>
           <Clock key='0' index='0' playerName={this.state.names[0]} handleChangeName={this.handleChangeName} timer={this.state.timers[0]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
-          <Clock key='0' index='1' playerName={this.state.names[1]} handleChangeName={this.handleChangeName} timer={this.state.timers[1]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
-          <Clock key='0' index='2' playerName={this.state.names[2]} handleChangeName={this.handleChangeName} timer={this.state.timers[2]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
-          <Clock key='0' index='3' playerName={this.state.names[3]} handleChangeName={this.handleChangeName} timer={this.state.timers[3]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
+          <Clock key='1' index='1' playerName={this.state.names[1]} handleChangeName={this.handleChangeName} timer={this.state.timers[1]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
+          <Clock key='3' index='3' playerName={this.state.names[3]} handleChangeName={this.handleChangeName} timer={this.state.timers[3]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
+          <Clock key='2' index='2' playerName={this.state.names[2]} handleChangeName={this.handleChangeName} timer={this.state.timers[2]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
         </div>
 
       </div>
