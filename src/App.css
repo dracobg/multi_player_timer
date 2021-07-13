@@ -4,7 +4,7 @@
   margin: 0 auto
 }
 
-.setTimer {
+.setClock {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,7 +35,7 @@
   margin: 0 auto;
 }
 
-.playerDiv {
+.clockDiv {
   width: 40%;
   height: 40%;
   margin: 20px;
@@ -70,7 +70,19 @@
   margin: 10px auto;
 }
 
-.playerTimer {
+.playerClock {
   font-size: 40px;
   font-weight: bold;
+}
+
+.selectPlayers {
+  width: 70px;
+  height: 30px;
+  background-color: lightgray;
+  border-radius: 5px;
+  margin: 10px
+}
+
+.selectPlayers.selected {
+  background-color: green;
 }

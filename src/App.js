@@ -2,32 +2,39 @@ import React, { Component } from 'react'
 import './App.css';
 import Clock from './Clock'
 
-const originalMinutes = 30
-const originalSeconds = originalMinutes * 60
+const originalMinutesClock = 30
+const originalSecondsClock = originalMinutesClock * 60
+
+const originalMinutesTimer = 2
+const originalSecondsTimer = originalMinutesTimer * 60
 
 class App extends Component {
 
   constructor() {
     super()
     this.state = {
-      numberMinutes: originalMinutes,
+      numberMinutes: originalMinutesClock,
       names: ['Player Name 1', 'Player Name 2', 'Player Name 3', 'Player Name 4'],
-      timers: [originalSeconds, originalSeconds, originalSeconds, originalSeconds],
-      playerSelected: 0,
-      started: false
+      clocks: [originalSecondsClock, originalSecondsClock, originalSecondsClock, originalSecondsClock],
+      timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
+      playerSelected: 5,
+      started: false,
+      playerQty: 4
     }
 
     this.handleChangeMinutes = this.handleChangeMinutes.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
     this.setSelectedPlayer = this.setSelectedPlayer.bind(this);
+    this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this);
+    this.displayClocks = this.displayClocks.bind(this);
   }
 
   componentDidMount() {
     setInterval(() => {
-      if (this.state.started && this.state.timers[this.state.playerSelected] > 0) {
-        let tempTimers = this.state.timers
-        tempTimers[this.state.playerSelected] = tempTimers[this.state.playerSelected] - 1
-        this.setState({ timers: tempTimers })
+      if (this.state.started && this.state.clocks[this.state.playerSelected] > 0) {
+        let tempClocks = this.state.clocks
+        tempClocks[this.state.playerSelected] = tempClocks[this.state.playerSelected] - 1
+        this.setState({ clocks: tempClocks })
       }
     }, 1000)
   }
@@ -41,9 +48,16 @@ class App extends Component {
 
       this.setState({
         numberMinutes: e.target.value,
-        timers: [timeSetting, timeSetting, timeSetting, timeSetting]
+        clocks: [timeSetting, timeSetting, timeSetting, timeSetting]
       })
     }
+  }
+
+  handleSelectPlayerNumber(e) {
+    const playerQty = e.target.name === '2PlayerSelected' ? 2 : 4
+    this.setState({
+      playerQty: playerQty
+    })
   }
 
   handleChangeName(e, index) {
@@ -62,11 +76,47 @@ class App extends Component {
     })
   }
 
+  displayClocks() {
+    let clockArray = []
+    for (let n = 0; n < this.state.playerQty; n++) {
+      clockArray.push(
+        <Clock key={n} index={n} playerName={this.state.names[n]} handleChangeName={this.handleChangeName} clock={this.state.clocks[n]} timer={this.state.timers[n]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
+      )
+    }
+
+    return clockArray
+  }
+
   render() {
     return (
       <div className="App">
 
-        <div id='setTimer' className='setTimer'>
+        <div id='selectPlayerNumber' className='selectPlayerNumber'>
+          <div id='noPlayersLabel' className='noPlayersLabel'>
+            Select number of players - 2 or 4
+          </div>
+          <div>
+            <button
+              id='selectPlayers2'
+              className={this.state.playerQty === 2 ? 'selectPlayers selected' : 'selectPlayers'}
+              name='2PlayerSelected'
+              onClick={this.handleSelectPlayerNumber}
+            >
+              2
+            </button>
+
+            <button
+              id='selectPlayers4'
+              className={this.state.playerQty === 4 ? 'selectPlayers selected' : 'selectPlayers'}
+              name='4PlayerSelected'
+              onClick={this.handleSelectPlayerNumber}
+            >
+              4
+            </button>
+          </div>
+        </div>
+
+        <div id='setClock' className='setClock'>
           <div id='noMinsLabel' className='noMinsLabel'>
             Set number of minutes per player:
           </div>
@@ -84,10 +134,7 @@ class App extends Component {
         </div>
 
         <div id='clocksDiv' className='clocksDiv'>
-          <Clock key='0' index='0' playerName={this.state.names[0]} handleChangeName={this.handleChangeName} timer={this.state.timers[0]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
-          <Clock key='1' index='1' playerName={this.state.names[1]} handleChangeName={this.handleChangeName} timer={this.state.timers[1]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
-          <Clock key='3' index='3' playerName={this.state.names[3]} handleChangeName={this.handleChangeName} timer={this.state.timers[3]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
-          <Clock key='2' index='2' playerName={this.state.names[2]} handleChangeName={this.handleChangeName} timer={this.state.timers[2]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} />
+          {this.displayClocks()}
         </div>
 
       </div>
