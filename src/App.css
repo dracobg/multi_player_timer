@@ -1,4 +1,5 @@
 .App {
+  max-width: 900px;
   text-align: center;
   margin: 0 auto
 }
@@ -48,7 +49,8 @@
 }
 
 .clockDiv {
-  width: 400px;
+  width: 40%;
+  max-width: 210;
   height: 200px;
   margin: 20px;
   background-color: rgb(211, 211, 211, 0.8);
@@ -98,6 +100,7 @@
   font-weight: bold;
   text-align: center;
   margin: 10px auto;
+  max-width: 90%;
 }
 
 .playerClock {
