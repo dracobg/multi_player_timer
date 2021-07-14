@@ -31,6 +31,8 @@ class App extends Component {
     this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this);
     this.displayClocks = this.displayClocks.bind(this);
     this.useExtension = this.useExtension.bind(this);
+    this.handleRotate = this.handleRotate.bind(this);
+    this.restartGame = this.restartGame.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +69,10 @@ class App extends Component {
     }
   }
 
+  handleRotate() {
+    this.setState({ rotate: !this.state.rotate })
+  }
+
   handleSelectPlayerNumber(e) {
     const playerQty = e.target.name === '2PlayerSelected' ? 2 : 4
     this.setState({
@@ -80,6 +86,18 @@ class App extends Component {
 
     this.setState({
       names: tempNames
+    })
+  }
+
+  restartGame() {
+    const numberSeconds = this.state.numberMinutes * 60
+
+    this.setState({
+      clocks: [numberSeconds, numberSeconds, numberSeconds, numberSeconds],
+      timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
+      extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
+      playerSelected: 5,
+      started: false
     })
   }
 
@@ -109,7 +127,7 @@ class App extends Component {
     let clockArray = []
     for (let n = 0; n < this.state.playerQty; n++) {
       clockArray.push(
-        <Clock key={n} index={n} playerName={this.state.names[n]} handleChangeName={this.handleChangeName} clock={this.state.clocks[n]} timer={this.state.timers[n]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} extensions={this.state.extensions[n]} useExtension={this.useExtension} />
+        <Clock key={n} index={n} playerName={this.state.names[n]} handleChangeName={this.handleChangeName} clock={this.state.clocks[n]} timer={this.state.timers[n]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} extensions={this.state.extensions[n]} useExtension={this.useExtension} playerQty={this.state.playerQty} started={this.state.started} rotate={this.state.rotate} />
       )
     }
 
@@ -162,9 +180,29 @@ class App extends Component {
             />
           </div>
 
+          <div>
+            <button
+              id='rotateBtn'
+              className={!this.state.rotate ? 'settingsBtn' : 'settingsBtn selected'}
+              onClick={this.handleRotate}
+            >
+              Rotate
+            </button>
+          </div>
+
+          <div>
+            <button
+              id='restart'
+              className='settingsBtn'
+              onClick={this.restartGame}
+            >
+              Restart
+            </button>
+          </div>
+
         </div>
 
-        <div id='clocksDiv' className='clocksDiv'>
+        <div id='clocksDiv' className={this.state.playerQty === 4 ? 'clocksDiv' : 'clocksDiv twoPlayer'}>
           {this.displayClocks()}
         </div>
 

@@ -7,9 +7,9 @@
 .settingsDiv {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 500px;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
   margin: 20px auto;
   height: 30px;
 }
@@ -44,6 +44,10 @@
   margin: 0 auto;
 }
 
+.clocksDiv.twoPlayer {
+  width: 40%;
+}
+
 .clockDiv {
   width: 400px;
   height: 200px;
@@ -51,6 +55,18 @@
   background-color: lightgray;
   border-radius: 10px;
   padding: 10px;
+}
+
+.clockDiv.rotate {
+  transform: rotate(180deg);
+}
+
+.displayClock {
+  display: block;
+}
+
+.hideClock {
+  display: none;
 }
 
 .clock {
@@ -99,13 +115,13 @@
   font-size: 18px;
 }
 
+.selectPlayers.selected {
+  background-color: lightgreen;
+}
+
 .settingsLabel {
   font-size: 18px;
   margin: 5px;
-}
-
-.selectPlayers.selected {
-  background-color: green;
 }
 
 .timerDiv {
@@ -138,7 +154,6 @@
 }
 
 .extDiv {
-  width: 265px;
   height: 30px;
   margin: auto;
   background-color: gray;
@@ -167,4 +182,16 @@
   color: white;
   font-size: 20px;
   font-weight: bold;
+}
+
+.settingsBtn {
+  font-size: 18px;
+  background-color: lightgray;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 30px;
+}
+
+.settingsBtn.selected {
+  background-color: lightgreen;
 }
