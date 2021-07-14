@@ -4,17 +4,27 @@
   margin: 0 auto
 }
 
-.setClock {
+.settingsDiv {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 10px auto;
-
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 500px;
+  margin: 20px auto;
+  height: 30px;
 }
 
-.noMinsLabel {
-  margin: 10px auto;
+.selectPlayerNumber {
   font-size: 18px;
+}
+
+.setClock {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+  height:30px;
+
 }
 
 .noMinsInput {
@@ -23,7 +33,6 @@
   text-align: center;
   border: 2px solid darkblue;
   border-radius: 5px;
-  margin-left: 10px;
 }
 
 .clocksDiv {
@@ -86,7 +95,13 @@
   height: 30px;
   background-color: lightgray;
   border-radius: 5px;
-  margin: 10px
+  margin: 0px 1px;
+  font-size: 18px;
+}
+
+.settingsLabel {
+  font-size: 18px;
+  margin: 5px;
 }
 
 .selectPlayers.selected {
@@ -128,6 +143,12 @@
   margin: auto;
   background-color: gray;
   border-radius: 7px;
+  cursor: pointer;
+}
+
+.extDiv:hover {
+  color: white;
+  border-color: white;
 }
 
 .extDiv.playerSelected {

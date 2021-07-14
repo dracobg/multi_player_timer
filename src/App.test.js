@@ -25,8 +25,8 @@ let wrapper =
       it('Then it displays buttons to select the number of players', () => {
         expect(wrapper.find('#selectPlayerNumber')).to.have.length(1)
         expect(wrapper.find('#noPlayersLabel')).to.have.length(1)
-        expect(wrapper.find('#noPlayersLabel').prop('className')).to.equal('noPlayersLabel')
-        expect(wrapper.find('#noPlayersLabel').text()).to.equal('Select number of players - 2 or 4')
+        expect(wrapper.find('#noPlayersLabel').prop('className')).to.equal('settingsLabel')
+        expect(wrapper.find('#noPlayersLabel').text()).to.equal('Players:')
         expect(wrapper.find('#selectPlayers2')).to.have.length(1)
         expect(wrapper.find('#selectPlayers2').prop('className')).to.equal('selectPlayers')
         expect(wrapper.find('#selectPlayers2').text()).to.equal('2')
@@ -40,8 +40,8 @@ let wrapper =
       it('Then it displays the input to select the time per player', () => {
         expect(wrapper.find('#setClock')).to.have.length(1)
         expect(wrapper.find('#noMinsLabel')).to.have.length(1)
-        expect(wrapper.find('#noMinsLabel').prop('className')).to.equal('noMinsLabel')
-        expect(wrapper.find('#noMinsLabel').text()).to.equal('Set number of minutes per player:')
+        expect(wrapper.find('#noMinsLabel').prop('className')).to.equal('settingsLabel')
+        expect(wrapper.find('#noMinsLabel').text()).to.equal('Minutes:')
         expect(wrapper.find('#noMinsInput')).to.have.length(1)
         expect(wrapper.find('#noMinsInput').prop('className')).to.equal('noMinsInput')
         expect(wrapper.find('#noMinsInput').prop('size')).to.equal('20')

@@ -120,36 +120,37 @@ class App extends Component {
     return (
       <div className="App">
 
-        <div id='selectPlayerNumber' className='selectPlayerNumber'>
-          <div id='noPlayersLabel' className='noPlayersLabel'>
-            Select number of players - 2 or 4
-          </div>
-          <div>
-            <button
-              id='selectPlayers2'
-              className={this.state.playerQty === 2 ? 'selectPlayers selected' : 'selectPlayers'}
-              name='2PlayerSelected'
-              onClick={this.handleSelectPlayerNumber}
-            >
-              2
-            </button>
+        <div id='settingsDiv' className='settingsDiv'>
 
-            <button
-              id='selectPlayers4'
-              className={this.state.playerQty === 4 ? 'selectPlayers selected' : 'selectPlayers'}
-              name='4PlayerSelected'
-              onClick={this.handleSelectPlayerNumber}
-            >
-              4
-            </button>
-          </div>
-        </div>
+          <div id='selectPlayerNumber' className='selectPlayerNumber'>
+            <span id='noPlayersLabel' className='settingsLabel'>
+              Players:
+            </span>
+            <span>
+              <button
+                id='selectPlayers2'
+                className={this.state.playerQty === 2 ? 'selectPlayers selected' : 'selectPlayers'}
+                name='2PlayerSelected'
+                onClick={this.handleSelectPlayerNumber}
+              >
+                2
+              </button>
 
-        <div id='setClock' className='setClock'>
-          <div id='noMinsLabel' className='noMinsLabel'>
-            Set number of minutes per player:
+              <button
+                id='selectPlayers4'
+                className={this.state.playerQty === 4 ? 'selectPlayers selected' : 'selectPlayers'}
+                name='4PlayerSelected'
+                onClick={this.handleSelectPlayerNumber}
+              >
+                4
+              </button>
+            </span>
           </div>
-          <div>
+
+          <div id='setClock' className='setClock'>
+            <div id='noMinsLabel' className='settingsLabel'>
+              Minutes:
+            </div>
             <input
               id='noMinsInput'
               className='noMinsInput'
@@ -160,6 +161,7 @@ class App extends Component {
               onChange={this.handleChangeMinutes}
             />
           </div>
+
         </div>
 
         <div id='clocksDiv' className='clocksDiv'>
