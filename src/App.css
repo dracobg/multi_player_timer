@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  height: 500px;
   margin: 0 auto
 }
 
@@ -55,6 +54,7 @@
   background-color: lightgray;
   border-radius: 10px;
   padding: 10px;
+  opacity: 80%;
 }
 
 .clockDiv.rotate {
@@ -196,14 +196,190 @@
   background-color: lightgreen;
 }
 
-@media screen and (max-width: 600px) {
+.wallpaperImg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: -10;
+}
+
+@media screen and (max-width: 700px) {
+  .App {
+    text-align: center;
+    margin: 0 auto
+  }
+  
   .settingsDiv {
+    width: 100%;
+    margin: 10px auto;
+  }
+  
+  .selectPlayerNumber {
+    font-size: 18px;
+  }
+  
+  .setClock {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
-    width: 60%;
-    margin: 20px auto;
-    height: 100px;
+    margin: auto;
+    height:30px;
+  
+  }
+  
+  .noMinsInput {
+    font-size: 18px;
+    width:100px;
+    text-align: center;
+    border: 2px solid darkblue;
+    border-radius: 5px;
+  }
+  
+  .clocksDiv {
+    width: 100%;
+  }
+  
+  .clocksDiv.twoPlayer {
+    width: 40%;
+  }
+  
+  .clockDiv {
+    width: 40%;
+    height: 170px;
+    margin: 5px 20px;
+    padding: 0px;
+  }
+  
+  .clockDiv.rotate {
+    transform: rotate(180deg);
+  }
+  
+  .displayClock {
+    display: block;
+  }
+  
+  .hideClock {
+    display: none;
+  }
+  
+  .clock {
+    width: 120px;
+    height: 50px;
+    margin: 5px auto;
+  }
+  
+  .clock:hover {
+    color: white;
+    border-color: white;
+  }
+  
+  .clock.playerSelected {
+    background-color: green;
+  }
+  
+  .clock.zero {
+    background-color: red;
+  }
+  
+  .clock.low {
+    background-color: orange;
+  }
+  
+  .playerNameInput {
+    font-size: 16px;
+    margin: 3px auto 5px auto;
+  }
+  
+  .playerClock {
+    font-size: 30px;
+  }
+  
+  .selectPlayers {
+    width: 70px;
+    height: 30px;
+    background-color: lightgray;
+    border-radius: 5px;
+    margin: 0px 1px;
+    font-size: 18px;
+  }
+  
+  .selectPlayers.selected {
+    background-color: lightgreen;
+  }
+  
+  .settingsLabel {
+    font-size: 18px;
+    margin: 5px;
+  }
+  
+  .timerDiv {
+    width: 70px;
+    height: 25px;
+    margin: 5px auto;
+  }
+  
+  .timerDiv.playerSelected {
+    background-color: green;
+  }
+  
+  .timerDiv.zero {
+    background-color: red;
+  }
+  
+  .timerDiv.critical {
+    background-color: orange;
+  }
+  
+  .timerDiv.low {
+    background-color: lightgreen;
+  }
+  
+  .playerTimer {
+    font-size: 20px;
+  }
+  
+  .extDiv {
+    margin: 5px auto;
+  }
+  
+  .extDiv:hover {
+    color: white;
+    border-color: white;
+  }
+  
+  .extDiv.playerSelected {
+    background-color: green;
+  }
+  
+  .extDiv.zero {
+    background-color: red;
+  }
+  
+  .extDiv.low {
+    background-color: orange;
+  }
+  
+  .playerExt {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .settingsBtn {
+    margin: 0 5px;
+  }
+  
+  .settingsBtn.selected {
+    background-color: lightgreen;
+  }
+  
+  .wallpaperImg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: -10;
   }
   
 }

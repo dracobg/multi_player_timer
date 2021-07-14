@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './App.css';
 import Clock from './Clock'
+import Settings from './Settings'
+import NicolBolas from './media/NicolBolas.jpg'
 
 const originalMinutesClock = 30
 const originalSecondsClock = originalMinutesClock * 60
@@ -22,7 +24,8 @@ class App extends Component {
       extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
       playerSelected: 5,
       started: false,
-      playerQty: 4
+      playerQty: 4,
+      showSettings: true
     }
 
     this.handleChangeMinutes = this.handleChangeMinutes.bind(this);
@@ -31,7 +34,7 @@ class App extends Component {
     this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this);
     this.displayClocks = this.displayClocks.bind(this);
     this.useExtension = this.useExtension.bind(this);
-    this.handleRotate = this.handleRotate.bind(this);
+    this.toggleRotate = this.toggleRotate.bind(this);
     this.restartGame = this.restartGame.bind(this);
   }
 
@@ -69,7 +72,7 @@ class App extends Component {
     }
   }
 
-  handleRotate() {
+  toggleRotate() {
     this.setState({ rotate: !this.state.rotate })
   }
 
@@ -137,73 +140,22 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-        <div id='settingsDiv' className='settingsDiv'>
-
-          <div id='selectPlayerNumber' className='selectPlayerNumber'>
-            <span id='noPlayersLabel' className='settingsLabel'>
-              Players:
-            </span>
-            <span>
-              <button
-                id='selectPlayers2'
-                className={this.state.playerQty === 2 ? 'selectPlayers selected' : 'selectPlayers'}
-                name='2PlayerSelected'
-                onClick={this.handleSelectPlayerNumber}
-              >
-                2
-              </button>
-
-              <button
-                id='selectPlayers4'
-                className={this.state.playerQty === 4 ? 'selectPlayers selected' : 'selectPlayers'}
-                name='4PlayerSelected'
-                onClick={this.handleSelectPlayerNumber}
-              >
-                4
-              </button>
-            </span>
-          </div>
-
-          <div id='setClock' className='setClock'>
-            <div id='noMinsLabel' className='settingsLabel'>
-              Minutes:
-            </div>
-            <input
-              id='noMinsInput'
-              className='noMinsInput'
-              size='20'
-              maxLength='2'
-              type='text'
-              value={this.state.numberMinutes}
-              onChange={this.handleChangeMinutes}
-            />
-          </div>
-
-          <div>
-            <button
-              id='rotateBtn'
-              className={!this.state.rotate ? 'settingsBtn' : 'settingsBtn selected'}
-              onClick={this.handleRotate}
-            >
-              Rotate
-            </button>
-          </div>
-
-          <div>
-            <button
-              id='restart'
-              className='settingsBtn'
-              onClick={this.restartGame}
-            >
-              Restart
-            </button>
-          </div>
-
-        </div>
+        <Settings
+          playerQty={this.state.playerQty}
+          handleSelectPlayerNumber={this.handleSelectPlayerNumber}
+          numberMinutes={this.state.numberMinutes}
+          handleChangeMinutes={this.handleChangeMinutes}
+          rotate={this.state.rotate}
+          toggleRotate={this.toggleRotate}
+          restartGame={this.restartGame}
+        />
 
         <div id='clocksDiv' className={this.state.playerQty === 4 ? 'clocksDiv' : 'clocksDiv twoPlayer'}>
           {this.displayClocks()}
+        </div>
+
+        <div className='wallpaperDiv'>
+          <img id='wallpaperImg' alt='wallpaper image' className='wallpaperImg' src={NicolBolas} />
         </div>
 
       </div>
