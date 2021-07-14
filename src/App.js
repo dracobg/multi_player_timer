@@ -155,7 +155,7 @@ class App extends Component {
         </div>
 
         <div className='wallpaperDiv'>
-          <img id='wallpaperImg' alt='wallpaper image' className='wallpaperImg' src={NicolBolas} />
+          <img id='wallpaperImg' alt='wallpaper' className='wallpaperImg' src={NicolBolas} />
         </div>
 
       </div>

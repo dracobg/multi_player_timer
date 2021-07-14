@@ -51,10 +51,9 @@
   width: 400px;
   height: 200px;
   margin: 20px;
-  background-color: lightgray;
+  background-color: rgb(211, 211, 211, 0.8);
   border-radius: 10px;
   padding: 10px;
-  opacity: 80%;
 }
 
 .clockDiv.rotate {

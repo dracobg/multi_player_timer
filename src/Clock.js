@@ -11,7 +11,7 @@ function Clock(props) {
     const ClassNameTimer = props.timer === 0 ? 'timerDiv zero' : props.timer < 10 ? 'timerDiv critical' : props.timer < 30 ? 'timerDiv low' : props.index === props.playerSelected ? 'timerDiv playerSelected' : 'timerDiv'
     const ClassNameExt = props.extensions === 0 ? 'extDiv zero' : props.extensions < 3 ? 'extDiv low' : props.index === props.playerSelected ? 'extDiv playerSelected' : 'extDiv'
 
-    const rotateClock = props.rotate && ( props.playerQty === 4 && props.index < 2 || props.playerQty === 2 && (props.index % 2) === 0 )
+    const rotateClock = (props.rotate && props.playerQty === 4 && props.index < 2) || (props.rotate && props.playerQty === 2 && (props.index % 2) === 0)
 
     return (
         <div id={'clockDiv' + props.index} className={rotateClock ? 'clockDiv rotate' : 'clockDiv'}>
