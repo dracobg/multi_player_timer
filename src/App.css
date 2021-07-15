@@ -1,30 +1,30 @@
 .App {
   max-width: 900px;
   text-align: center;
-  margin: 0 auto
+  margin: 0 auto;
 }
 
 .settingsDiv {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  width: 60%;
+  width: 230px;
   margin: 20px auto;
-  height: 30px;
+  background-color: rgb(255, 161, 2, 0.8);
 }
 
 .selectPlayerNumber {
   font-size: 18px;
+  margin: 5px auto;
 }
 
 .setClock {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: auto;
+  margin: 5px auto;
   height:30px;
-
 }
 
 .noMinsInput {
@@ -51,7 +51,7 @@
 .clockDiv {
   width: 40%;
   max-width: 210;
-  height: 200px;
+  height: 175px;
   margin: 20px;
   background-color: rgb(211, 211, 211, 0.8);
   border-radius: 10px;
@@ -76,6 +76,7 @@
   border-radius: 15px;
   height: 60px;
   cursor: pointer;
+  margin: 5px auto;
 }
 
 .clock:hover {
@@ -95,12 +96,22 @@
   background-color: orange;
 }
 
+.playerInput {
+  margin: 5px auto;
+}
+
 .playerNameInput {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
-  margin: 10px auto;
+  margin: auto;
   max-width: 90%;
+}
+
+.playerNameTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin: auto;
 }
 
 .playerClock {
@@ -123,7 +134,8 @@
 
 .settingsLabel {
   font-size: 18px;
-  margin: 5px;
+  margin: 5px 5px 0px 5px;
+  font-weight: bold;
 }
 
 .timerDiv {
@@ -186,6 +198,11 @@
   font-weight: bold;
 }
 
+.settingsButtons {
+  width: 150px;
+  margin: 5px auto;
+}
+
 .settingsBtn {
   font-size: 18px;
   background-color: lightgray;
@@ -198,13 +215,12 @@
   background-color: lightgreen;
 }
 
-.wallpaperImg {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  z-index: -10;
+.settingsIcon {
+  width: 20px;
+  height: 20px;
+  float: right;
 }
+
 
 @media screen and (max-width: 700px) {
   .App {
@@ -212,22 +228,9 @@
     margin: 0 auto
   }
   
-  .settingsDiv {
-    width: 100%;
-    margin: 10px auto;
-  }
-  
   .selectPlayerNumber {
     font-size: 18px;
-  }
-  
-  .setClock {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: auto;
-    height:30px;
-  
+    margin: 5px auto;
   }
   
   .noMinsInput {
@@ -248,7 +251,7 @@
   
   .clockDiv {
     width: 40%;
-    height: 170px;
+    height: 155px;
     margin: 5px 20px;
     padding: 0px;
   }
@@ -268,7 +271,6 @@
   .clock {
     width: 120px;
     height: 50px;
-    margin: 5px auto;
   }
   
   .clock:hover {
@@ -311,8 +313,7 @@
   }
   
   .settingsLabel {
-    font-size: 18px;
-    margin: 5px;
+    font-size: 16px;
   }
   
   .timerDiv {
@@ -366,22 +367,6 @@
     color: white;
     font-size: 20px;
     font-weight: bold;
-  }
-  
-  .settingsBtn {
-    margin: 0 5px;
-  }
-  
-  .settingsBtn.selected {
-    background-color: lightgreen;
-  }
-  
-  .wallpaperImg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    z-index: -10;
   }
   
 }

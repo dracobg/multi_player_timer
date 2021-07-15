@@ -1,4 +1,5 @@
 import './App.css'
+import PlayerInput from './PlayerInput'
 
 function Settings(props) {
   return (
@@ -29,9 +30,14 @@ function Settings(props) {
         </span>
       </div>
 
-      <div id='setClock' className='setClock'>
+      <PlayerInput index={0} playerNumber={1} playerName={props.names[0]} handleChangeName={props.handleChangeName} />
+      <PlayerInput index={1} playerNumber={2} playerName={props.names[1]} handleChangeName={props.handleChangeName} />
+      {props.playerQty === 4 && <PlayerInput index={3} playerNumber={3} playerName={props.names[3]} handleChangeName={props.handleChangeName} />}
+      {props.playerQty === 4 && <PlayerInput index={2} playerNumber={4} playerName={props.names[2]} handleChangeName={props.handleChangeName} />}
+
+      <div id='setPlayerMins' className='setClock'>
         <div id='noMinsLabel' className='settingsLabel'>
-          Minutes:
+          Player Mins:
         </div>
         <input
           id='noMinsInput'
@@ -44,27 +50,36 @@ function Settings(props) {
         />
       </div>
 
-      <div id='settingsButtons' className='settingsButtons'>
-        <span>
-          <button
-            id='rotateBtn'
-            className={!props.rotate ? 'settingsBtn' : 'settingsBtn selected'}
-            onClick={props.toggleRotate}
-          >
-            Rotate
-          </button>
-        </span>
-
-        <span>
-          <button
-            id='restart'
-            className='settingsBtn'
-            onClick={props.restartGame}
-          >
-            Restart
-          </button>
-        </span>
+      <div id='rotateButton' className='settingsButtons'>
+        <button
+          id='rotateBtn'
+          className={!props.rotate ? 'settingsBtn' : 'settingsBtn selected'}
+          onClick={props.toggleRotate}
+        >
+          Rotate
+        </button>
       </div>
+
+      <div id='startButton' className='settingsButtons'>
+        <button
+          id='start'
+          className='settingsBtn'
+          onClick={props.startGame}
+        >
+          Start New Game
+        </button>
+      </div>
+
+      {props.started
+        && <div id='returnButton' className='settingsButtons'>
+          <button
+            id='return'
+            className='settingsBtn'
+            onClick={props.returnToGame}
+          >
+            Return to Game
+          </button>
+        </div>}
 
     </div>
   )

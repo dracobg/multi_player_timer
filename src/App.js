@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './App.css';
 import Clock from './Clock'
 import Settings from './Settings'
-import NicolBolas from './media/NicolBolas.jpg'
+import SettingsIcon from './media/SettingsIcon.svg'
 
 const originalMinutesClock = 30
 const originalSecondsClock = originalMinutesClock * 60
@@ -18,24 +18,27 @@ class App extends Component {
     super()
     this.state = {
       numberMinutes: originalMinutesClock,
-      names: ['Player 1 Name', 'Player 2 Name', 'Player 3 Name', 'Player 4 Name'],
+      names: ['Player1', 'Player2', 'Player4', 'Player3'],
       clocks: [originalSecondsClock, originalSecondsClock, originalSecondsClock, originalSecondsClock],
       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
       extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
       playerSelected: 5,
       started: false,
+      paused: false,
       playerQty: 4,
       showSettings: true
     }
 
-    this.handleChangeMinutes = this.handleChangeMinutes.bind(this);
-    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeMinutes = this.handleChangeMinutes.bind(this)
+    this.handleChangeName = this.handleChangeName.bind(this)
     this.setSelectedPlayer = this.setSelectedPlayer.bind(this);
-    this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this);
-    this.displayClocks = this.displayClocks.bind(this);
-    this.useExtension = this.useExtension.bind(this);
-    this.toggleRotate = this.toggleRotate.bind(this);
-    this.restartGame = this.restartGame.bind(this);
+    this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this)
+    this.displayClocks = this.displayClocks.bind(this)
+    this.useExtension = this.useExtension.bind(this)
+    this.toggleRotate = this.toggleRotate.bind(this)
+    this.startGame = this.startGame.bind(this)
+    this.setShowSettings = this.setShowSettings.bind(this)
+    this.returnToGame = this.returnToGame.bind(this)
   }
 
   componentDidMount() {
@@ -43,7 +46,7 @@ class App extends Component {
       let tempClocks = this.state.clocks
       let tempTimers = this.state.timers
 
-      if (this.state.started && this.state.clocks[this.state.playerSelected] > 0) {
+      if (this.state.started && !this.state.paused && this.state.clocks[this.state.playerSelected] > 0) {
         tempClocks[this.state.playerSelected] = tempClocks[this.state.playerSelected] - 1
 
         if (this.state.timers[this.state.playerSelected] > 0) {
@@ -92,7 +95,7 @@ class App extends Component {
     })
   }
 
-  restartGame() {
+  startGame() {
     const numberSeconds = this.state.numberMinutes * 60
 
     this.setState({
@@ -100,7 +103,14 @@ class App extends Component {
       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
       extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
       playerSelected: 5,
-      started: false
+      started: false,
+      showSettings: false
+    })
+  }
+
+  returnToGame() {
+    this.setState({
+      showSettings: false
     })
   }
 
@@ -121,43 +131,75 @@ class App extends Component {
       this.setState({
         playerSelected: indexPlayer,
         started: true,
+        paused: false,
         timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
       })
+    } else {
+      this.setState({
+        paused: !this.state.paused,
+      })
     }
+  }
+
+  setShowSettings(newStatus) {
+    this.setState({showSettings: newStatus})
   }
 
   displayClocks() {
     let clockArray = []
     for (let n = 0; n < this.state.playerQty; n++) {
       clockArray.push(
-        <Clock key={n} index={n} playerName={this.state.names[n]} handleChangeName={this.handleChangeName} clock={this.state.clocks[n]} timer={this.state.timers[n]} playerSelected={this.state.playerSelected} setSelectedPlayer={this.setSelectedPlayer} extensions={this.state.extensions[n]} useExtension={this.useExtension} playerQty={this.state.playerQty} started={this.state.started} rotate={this.state.rotate} />
+        <Clock
+          key={n}
+          index={n}
+          playerName={this.state.names[n]}
+          handleChangeName={this.handleChangeName}
+          clock={this.state.clocks[n]}
+          timer={this.state.timers[n]}
+          playerSelected={this.state.playerSelected}
+          setSelectedPlayer={this.setSelectedPlayer}
+          extensions={this.state.extensions[n]}
+          useExtension={this.useExtension}
+          playerQty={this.state.playerQty}
+          started={this.state.started}
+          rotate={this.state.rotate}
+          setShowSettings={this.setShowSettings}
+        />
       )
     }
 
-    return clockArray
+    return (
+      <div id='clocksDiv' className={this.state.playerQty === 4 ? 'clocksDiv' : 'clocksDiv twoPlayer'}>
+        {clockArray}
+      </div>
+      )
   }
 
   render() {
     return (
       <div className="App">
-        <Settings
-          playerQty={this.state.playerQty}
-          handleSelectPlayerNumber={this.handleSelectPlayerNumber}
-          numberMinutes={this.state.numberMinutes}
-          handleChangeMinutes={this.handleChangeMinutes}
-          rotate={this.state.rotate}
-          toggleRotate={this.toggleRotate}
-          restartGame={this.restartGame}
-        />
 
-        <div id='clocksDiv' className={this.state.playerQty === 4 ? 'clocksDiv' : 'clocksDiv twoPlayer'}>
-          {this.displayClocks()}
-        </div>
+        {this.state.showSettings
+          ? <Settings
+            names={this.state.names}
+            playerQty={this.state.playerQty}
+            handleSelectPlayerNumber={this.handleSelectPlayerNumber}
+            numberMinutes={this.state.numberMinutes}
+            handleChangeMinutes={this.handleChangeMinutes}
+            rotate={this.state.rotate}
+            started={this.state.started}
+            toggleRotate={this.toggleRotate}
+            startGame={this.startGame}
+            returnToGame={this.returnToGame}
+          />
 
-        <div className='wallpaperDiv'>
-          <img id='wallpaperImg' alt='wallpaper' className='wallpaperImg' src={NicolBolas} />
-        </div>
-
+          : <div>
+              <div>
+                <img id='settingsIcon' className='settingsIcon' src={SettingsIcon} alt='Go to Settings Screen' onClick={() => this.setShowSettings(true)} />
+              </div>
+              {this.displayClocks()}
+            
+            </div>}
       </div>
     )
   }

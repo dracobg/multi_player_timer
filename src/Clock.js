@@ -16,16 +16,9 @@ function Clock(props) {
     return (
         <div id={'clockDiv' + props.index} className={rotateClock ? 'clockDiv rotate' : 'clockDiv'}>
             <div id='displayClock' className={props.playerName === '' && props.started ? 'hideClock' : 'displayClock'}>
-                <input
-                    id={'playerNameInput' + props.index}
-                    className='playerNameInput'
-                    size='20'
-                    maxLength='20'
-                    type='text'
-                    value={props.playerName}
-                    onChange={(e) => props.handleChangeName(e, props.index)}
-                />
-
+                <div id={'playerNameTitle' + props.index} className='playerNameTitle'>
+                    {props.playerName}
+                </div>
                 <button id={'playerBtn' + props.index} className={ClassNameClock} onClick={() => props.setSelectedPlayer(props.index)}>
                     <div id={'playerClock' + props.index} className='playerClock'>
                         {minutesDisplayClock.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ' : ' + secondsDisplayClock.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
