@@ -66,7 +66,7 @@ function Settings(props) {
           className='settingsBtn'
           onClick={props.startGame}
         >
-          Start New Game
+          New Game
         </button>
       </div>
 
@@ -77,7 +77,7 @@ function Settings(props) {
             className='settingsBtn'
             onClick={props.returnToGame}
           >
-            Return to Game
+            Resume
           </button>
         </div>}
 
