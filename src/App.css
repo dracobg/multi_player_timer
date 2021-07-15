@@ -38,14 +38,13 @@
 .clocksDiv {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   justify-content: center;
-  width: 80%;
-  height: 80%;
-  margin: 0 auto;
+  align-items: center;
 }
 
 .clocksDiv.twoPlayer {
-  width: 40%;
+  flex-direction: column;
 }
 
 .clockDiv {
@@ -240,14 +239,6 @@
     text-align: center;
     border: 2px solid darkblue;
     border-radius: 5px;
-  }
-  
-  .clocksDiv {
-    width: 100%;
-  }
-  
-  .clocksDiv.twoPlayer {
-    width: 40%;
   }
   
   .clockDiv {
