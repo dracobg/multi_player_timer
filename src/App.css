@@ -199,7 +199,6 @@
 }
 
 .settingsButtons {
-  width: 150px;
   margin: 5px auto;
 }
 
@@ -209,7 +208,7 @@
   cursor: pointer;
   border-radius: 5px;
   height: 30px;
-  width: 120px;
+  width: 150px;
 }
 
 .settingsBtn.selected {
