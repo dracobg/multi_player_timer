@@ -162,7 +162,9 @@ class App extends Component {
           useExtension={this.useExtension}
           playerQty={this.state.playerQty}
           started={this.state.started}
+          paused={this.state.paused}
           rotate={this.state.rotate}
+          showSettings={this.state.showSettings}
           setShowSettings={this.setShowSettings}
         />
       )
@@ -182,6 +184,7 @@ class App extends Component {
         {this.state.showSettings
           ? <Settings
             names={this.state.names}
+            handleChangeName={this.handleChangeName}
             playerQty={this.state.playerQty}
             handleSelectPlayerNumber={this.handleSelectPlayerNumber}
             numberMinutes={this.state.numberMinutes}
