@@ -49,6 +49,7 @@
 
 .clockDiv {
   width: 40%;
+  min-width: 200px;
   max-width: 210;
   height: 175px;
   margin: 0px 10px 10px 10px;
@@ -168,6 +169,7 @@
 
 .extDiv {
   height: 30px;
+  min-width: 170px;
   margin: auto;
   background-color: gray;
   border-radius: 7px;
@@ -245,10 +247,6 @@
     width: 40%;
     height: 155px;
     padding: 0px;
-  }
-  
-  .clockDiv.rotate {
-    transform: rotate(180deg);
   }
   
   .displayClock {
@@ -359,5 +357,4 @@
     font-size: 20px;
     font-weight: bold;
   }
-  
 }
