@@ -1,4 +1,5 @@
 import './App.css'
+import interruptIcon from './media/interruptIcon.png'
 
 function Clock(props) {
     const minutesDisplayClock = Math.floor(props.clock / 60)
@@ -13,6 +14,8 @@ function Clock(props) {
 
     const rotateClock = (props.rotate && props.playerQty === 4 && props.index < 2) || (props.rotate && props.playerQty === 2 && (props.index % 2) === 0)
 
+    const interruptIconClassName = props.index === 1 || props.index === 2 ? 'interruptIcon right' : 'interruptIcon left'
+    
     return (
         <div id={'clockDiv' + props.index} className={rotateClock ? 'clockDiv rotate' : 'clockDiv'}>
             <div id='displayClock' className={props.playerName === '' ? 'hideClock' : 'displayClock'}>
@@ -36,6 +39,10 @@ function Clock(props) {
                         {'Extensions: ' + props.extensions}
                     </div>
                 </button>
+
+                <div>
+                    <img id='interruptIcon' className={interruptIconClassName} alt='Interrupt' src={interruptIcon} />
+                </div>
             </div>
         </div>
     )

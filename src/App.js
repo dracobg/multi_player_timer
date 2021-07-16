@@ -197,7 +197,7 @@ class App extends Component {
           />
 
           : <div>
-              <div>
+              <div id='settingsIconDiv' className='settingsIconDiv'>
                 <img id='settingsIcon' className='settingsIcon' src={SettingsIcon} alt='Go to Settings Screen' onClick={() => this.setShowSettings(true)} />
               </div>
               {this.displayClocks()}

@@ -216,11 +216,33 @@
   background-color: lightgreen;
 }
 
+.settingsIconDiv {
+  height: 75px;
+}
+
 .settingsIcon {
   width: 30px;
   height: 30px;
   background-color: white;
   border-radius: 30px;
+}
+
+.interruptIcon {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+}
+
+.interruptIcon.left {
+  position: relative;
+  bottom: 20px;
+  right: -50%;
+}
+
+.interruptIcon.right {
+  position: relative;
+  bottom: 20px;
+  left: -50%;
 }
 
 
