@@ -39,6 +39,7 @@ class App extends Component {
     this.startGame = this.startGame.bind(this)
     this.setShowSettings = this.setShowSettings.bind(this)
     this.returnToGame = this.returnToGame.bind(this)
+    // this.handleInterrupt = this.handleInterrupt.bind(this)
   }
 
   componentDidMount() {
@@ -126,6 +127,18 @@ class App extends Component {
     }
   }
 
+  // handleInterrupt(index) {
+  //   if (this.state.playerSelected === index && this.state.timers[index] === 0 && this.state.extensions[index] > 0) {
+  //     const tempExtensions = this.state.extensions
+  //     tempExtensions[index] = this.state.extensions[index] - 1
+
+  //     this.setState({
+  //       extensions: tempExtensions,
+  //       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
+  //     })
+  //   }
+  // }
+
   setSelectedPlayer(indexPlayer) {
     if (indexPlayer !== this.state.playerSelected) {
       this.setState({
@@ -166,6 +179,7 @@ class App extends Component {
           rotate={this.state.rotate}
           showSettings={this.state.showSettings}
           setShowSettings={this.setShowSettings}
+          // handleInterrupt={this.handleInterrupt}
         />
       )
     }
