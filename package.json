@@ -29,12 +29,12 @@
       "react-app/jest"
     ]
   },
-  
-  "collectCoverageFrom": [
-    "public/*.{js,jsx}",
-    "!**/node_modules/**",
-    "!**/index/**"
-  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "**/src/*.{js,jsx}",
+      "!**/index.js"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",

@@ -51,6 +51,7 @@ class App extends Component {
       if (this.state.started && !this.state.paused && this.state.clocks[this.state.playerSelected] > 0) {
         tempClocks[this.state.playerSelected] = tempClocks[this.state.playerSelected] - 1
 
+        /* istanbul ignore else */
         if (this.state.timers[this.state.playerSelected] > 0) {
           tempTimers[this.state.playerSelected] = tempTimers[this.state.playerSelected] - 1
         }
@@ -65,14 +66,18 @@ class App extends Component {
 
   handleChangeMinutes(e) {
     const rx = new RegExp('^[0-9]{0,2}$')
-    const isInteger = rx.test(e.target.value)
+    const isInteger = rx.test(e.target.value) && Number.isInteger(e.target.value)
 
     if (isInteger) {
       const timeSetting = e.target.value * 60
 
       this.setState({
-        numberMinutes: e.target.value,
+        numberMinutes: parseInt(e.target.value),
         clocks: [timeSetting, timeSetting, timeSetting, timeSetting]
+      })
+    } else {
+      this.setState({
+        numberMinutes: parseInt(this.state.numberMinutes)
       })
     }
   }
@@ -106,6 +111,7 @@ class App extends Component {
       extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
       playerSelected: 5,
       started: false,
+      paused: false,
       showSettings: false
     })
   }
@@ -156,7 +162,7 @@ class App extends Component {
   }
 
   setShowSettings(newStatus) {
-    this.setState({showSettings: newStatus})
+    this.setState({ showSettings: newStatus })
   }
 
   displayClocks() {
@@ -180,7 +186,7 @@ class App extends Component {
           rotate={this.state.rotate}
           showSettings={this.state.showSettings}
           setShowSettings={this.setShowSettings}
-          // handleInterrupt={this.handleInterrupt}
+        // handleInterrupt={this.handleInterrupt}
         />
       )
     }
@@ -189,7 +195,7 @@ class App extends Component {
       <div id='clocksDiv' className={this.state.playerQty === 4 ? 'clocksDiv' : 'clocksDiv twoPlayer'}>
         {clockArray}
       </div>
-      )
+    )
   }
 
   render() {
@@ -212,12 +218,12 @@ class App extends Component {
           />
 
           : <div>
-              <div id='settingsIconDiv' className='settingsIconDiv'>
-                <img id='settingsIcon' className='settingsIcon' src={SettingsIcon} alt='Go to Settings Screen' onClick={() => this.setShowSettings(true)} />
-              </div>
-              {this.displayClocks()}
-            
-            </div>}
+            <div id='settingsIconDiv' className='settingsIconDiv'>
+              <img id='settingsIcon' className='settingsIcon' src={SettingsIcon} alt='Go to Settings Screen' onClick={() => this.setShowSettings(true)} />
+            </div>
+            {this.displayClocks()}
+
+          </div>}
       </div>
     )
   }
