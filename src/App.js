@@ -66,6 +66,12 @@ class App extends Component {
         })
       }
     }, 1000)
+
+    /* istanbul ignore next */
+    window.addEventListener('beforeunload', function (e) {
+      e.preventDefault()
+      e.returnValue = ''
+    })
   }
 
   handleChangeMinutes(e) {
