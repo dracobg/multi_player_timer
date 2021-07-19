@@ -18,6 +18,7 @@ class App extends Component {
     super()
     this.state = {
       numberMinutes: originalMinutesClock,
+      timerMinutes: originalMinutesTimer,
       names: ['Player1', 'Player2', 'Player4', 'Player3'],
       clocks: [originalSecondsClock, originalSecondsClock, originalSecondsClock, originalSecondsClock],
       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
@@ -27,10 +28,13 @@ class App extends Component {
       paused: false,
       playerQty: 4,
       rotate: true,
-      showSettings: true
+      showSettings: true,
+      extensionsQty: 5
     }
 
     this.handleChangeMinutes = this.handleChangeMinutes.bind(this)
+    this.handleChangeTimer = this.handleChangeTimer.bind(this)
+    this.handleChangeExtensions = this.handleChangeExtensions.bind(this)
     this.handleChangeName = this.handleChangeName.bind(this)
     this.setSelectedPlayer = this.setSelectedPlayer.bind(this);
     this.handleSelectPlayerNumber = this.handleSelectPlayerNumber.bind(this)
@@ -66,18 +70,42 @@ class App extends Component {
 
   handleChangeMinutes(e) {
     const rx = new RegExp('^[0-9]{0,2}$')
-    const isInteger = rx.test(e.target.value) && Number.isInteger(e.target.value)
+    const isInteger = rx.test(e.target.value)
 
     if (isInteger) {
       const timeSetting = e.target.value * 60
 
       this.setState({
-        numberMinutes: parseInt(e.target.value),
+        numberMinutes: e.target.value,
         clocks: [timeSetting, timeSetting, timeSetting, timeSetting]
       })
-    } else {
+    }
+  }
+
+  handleChangeTimer(e) {
+    const rx = new RegExp('^[0-9]{0,1}$')
+    const isInteger = rx.test(e.target.value)
+
+    if (isInteger) {
+      const timeSetting = e.target.value * 60
+
       this.setState({
-        numberMinutes: parseInt(this.state.numberMinutes)
+        timerMinutes: e.target.value,
+        timers: [timeSetting, timeSetting, timeSetting, timeSetting]
+      })
+    }
+  }
+
+  handleChangeExtensions(e) {
+    const rx = new RegExp('^[0-9]{0,1}$')
+    const isInteger = rx.test(e.target.value)
+
+    if (isInteger) {
+      const extensionsQtySetting = e.target.value
+
+      this.setState({
+        extensionsQty: extensionsQtySetting,
+        extensions: [extensionsQtySetting, extensionsQtySetting, extensionsQtySetting, extensionsQtySetting]
       })
     }
   }
@@ -104,11 +132,13 @@ class App extends Component {
 
   startGame() {
     const numberSeconds = this.state.numberMinutes * 60
+    const timerSeconds = this.state.timerMinutes * 60
+    const extensionsQty = this.state.extensionsQty
 
     this.setState({
       clocks: [numberSeconds, numberSeconds, numberSeconds, numberSeconds],
-      timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
-      extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
+      timers: [timerSeconds, timerSeconds, timerSeconds, timerSeconds],
+      extensions: [extensionsQty, extensionsQty, extensionsQty, extensionsQty],
       playerSelected: 5,
       started: false,
       paused: false,
@@ -127,9 +157,11 @@ class App extends Component {
       const tempExtensions = this.state.extensions
       tempExtensions[index] = this.state.extensions[index] - 1
 
+      const secondsTimer = this.state.timerMinutes * 60
+
       this.setState({
         extensions: tempExtensions,
-        timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
+        timers: [secondsTimer, secondsTimer, secondsTimer, secondsTimer]
       })
     }
   }
@@ -148,11 +180,13 @@ class App extends Component {
 
   setSelectedPlayer(indexPlayer) {
     if (indexPlayer !== this.state.playerSelected) {
+      const playerTimers = this.state.timerMinutes * 60
+
       this.setState({
         playerSelected: indexPlayer,
         started: true,
         paused: false,
-        timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
+        timers: [playerTimers, playerTimers, playerTimers, playerTimers]
       })
     } else {
       this.setState({
@@ -209,7 +243,11 @@ class App extends Component {
             playerQty={this.state.playerQty}
             handleSelectPlayerNumber={this.handleSelectPlayerNumber}
             numberMinutes={this.state.numberMinutes}
+            timerMinutes={this.state.timerMinutes}
+            extensionsQty={this.state.extensionsQty}
             handleChangeMinutes={this.handleChangeMinutes}
+            handleChangeTimer={this.handleChangeTimer}
+            handleChangeExtensions={this.handleChangeExtensions}
             rotate={this.state.rotate}
             started={this.state.started}
             toggleRotate={this.toggleRotate}

@@ -100,12 +100,32 @@ let wrapper =
         expect(wrapper.find('#noMinsLabel').prop('className')).to.equal('settingsLabel')
         expect(wrapper.find('#noMinsLabel').text()).to.equal('Player Mins:')
         expect(wrapper.find('#noMinsInput')).to.have.length(1)
-        expect(wrapper.find('#noMinsInput').prop('className')).to.equal('noMinsInput')
+        expect(wrapper.find('#noMinsInput').prop('className')).to.equal('settingsInput')
         expect(wrapper.find('#noMinsInput').prop('size')).to.equal('20')
         expect(wrapper.find('#noMinsInput').prop('maxLength')).to.equal('2')
         expect(wrapper.find('#noMinsInput').prop('type')).to.equal('text')
         expect(wrapper.find('#noMinsInput').prop('value')).to.equal(30)
         expect(wrapper.find('#noMinsInput').prop('onChange').name).to.equal('bound handleChangeMinutes')
+      })
+
+      it('Then it displays the input to select the time per turn', () => {
+        expect(wrapper.find('#setPlayerMins')).to.have.length(1)
+        expect(wrapper.find('#noMinsLabel')).to.have.length(1)
+        expect(wrapper.find('#noMinsLabel').prop('className')).to.equal('settingsLabel')
+        expect(wrapper.find('#noMinsLabel').text()).to.equal('Player Mins:')
+        expect(wrapper.find('#noMinsInput')).to.have.length(1)
+        expect(wrapper.find('#noMinsInput').prop('className')).to.equal('settingsInput')
+        expect(wrapper.find('#noMinsInput').prop('size')).to.equal('20')
+        expect(wrapper.find('#noMinsInput').prop('maxLength')).to.equal('2')
+        expect(wrapper.find('#noMinsInput').prop('type')).to.equal('text')
+        expect(wrapper.find('#noMinsInput').prop('value')).to.equal(30)
+        expect(wrapper.find('#noMinsInput').prop('onChange').name).to.equal('bound handleChangeMinutes')
+      })
+    })
+
+    describe('When updating the inputs on the settings screen', () => {
+      beforeEach(() => {
+        wrapper = mount(<App />)
       })
 
       it('Then changing the time per player to an integer updates the screen and state', () => {
@@ -132,7 +152,7 @@ let wrapper =
 
         expect(wrapper.find('#noMinsInput').prop('value')).to.equal(30)
 
-        wrapper.find('#noMinsInput').simulate('change', event)
+        wrapper.find('#noMinsInput').simulate('change', badEvent)
 
         expect(wrapper.find('App').state().numberMinutes).to.equal(30)
         expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 1800, 1800])
@@ -140,18 +160,68 @@ let wrapper =
         expect(wrapper.find('#noMinsInput').prop('value')).to.equal(30)
       })
 
-      it('Then it displays the input to select the time per turn', () => {
-        expect(wrapper.find('#setPlayerMins')).to.have.length(1)
-        expect(wrapper.find('#noMinsLabel')).to.have.length(1)
-        expect(wrapper.find('#noMinsLabel').prop('className')).to.equal('settingsLabel')
-        expect(wrapper.find('#noMinsLabel').text()).to.equal('Player Mins:')
-        expect(wrapper.find('#noMinsInput')).to.have.length(1)
-        expect(wrapper.find('#noMinsInput').prop('className')).to.equal('noMinsInput')
-        expect(wrapper.find('#noMinsInput').prop('size')).to.equal('20')
-        expect(wrapper.find('#noMinsInput').prop('maxLength')).to.equal('2')
-        expect(wrapper.find('#noMinsInput').prop('type')).to.equal('text')
-        expect(wrapper.find('#noMinsInput').prop('value')).to.equal(30)
-        expect(wrapper.find('#noMinsInput').prop('onChange').name).to.equal('bound handleChangeMinutes')
+      it('Then changing the time per turn to an integer updates the screen and state', () => {
+        const goodEvent = { target: { value: 3 } }
+
+        expect(wrapper.find('App').state().timerMinutes).to.equal(2)
+        expect(wrapper.find('App').state().timers).to.eql([120, 120, 120, 120])
+
+        expect(wrapper.find('#timerMinsInput').prop('value')).to.equal(2)
+
+        wrapper.find('#timerMinsInput').simulate('change', goodEvent)
+
+        expect(wrapper.find('App').state().timerMinutes).to.equal(3)
+        expect(wrapper.find('App').state().timers).to.eql([180, 180, 180, 180])
+
+        expect(wrapper.find('#timerMinsInput').prop('value')).to.equal(3)
+      })
+
+      it('Then trying to change the time per turn to a non integer keeps the existing values', () => {
+        const badEvent = { target: { value: 'a' } }
+
+        expect(wrapper.find('App').state().timerMinutes).to.equal(2)
+        expect(wrapper.find('App').state().timers).to.eql([120, 120, 120, 120])
+
+        expect(wrapper.find('#timerMinsInput').prop('value')).to.equal(2)
+
+        wrapper.find('#timerMinsInput').simulate('change', badEvent)
+
+        expect(wrapper.find('App').state().timerMinutes).to.equal(2)
+        expect(wrapper.find('App').state().timers).to.eql([120, 120, 120, 120])
+
+        expect(wrapper.find('#timerMinsInput').prop('value')).to.equal(2)
+      })
+
+      it('Then changing the extensions quantity to an integer updates the screen and state', () => {
+        const goodEvent = { target: { value: 3 } }
+
+        expect(wrapper.find('App').state().extensionsQty).to.equal(5)
+        expect(wrapper.find('App').state().extensions).to.eql([5, 5, 5, 5])
+
+        expect(wrapper.find('#extQtyInput').prop('value')).to.equal(5)
+
+        wrapper.find('#extQtyInput').simulate('change', goodEvent)
+
+        expect(wrapper.find('App').state().extensionsQty).to.equal(3)
+        expect(wrapper.find('App').state().extensions).to.eql([3, 3, 3, 3])
+
+        expect(wrapper.find('#extQtyInput').prop('value')).to.equal(3)
+      })
+
+      it('Then trying to change the extensions quantity to a non integer keeps the existing values', () => {
+        const badEvent = { target: { value: 'a' } }
+
+        expect(wrapper.find('App').state().extensionsQty).to.equal(5)
+        expect(wrapper.find('App').state().extensions).to.eql([5, 5, 5, 5])
+
+        expect(wrapper.find('#extQtyInput').prop('value')).to.equal(5)
+
+        wrapper.find('#extQtyInput').simulate('change', badEvent)
+
+        expect(wrapper.find('App').state().extensionsQty).to.equal(5)
+        expect(wrapper.find('App').state().extensions).to.eql([5, 5, 5, 5])
+
+        expect(wrapper.find('#extQtyInput').prop('value')).to.equal(5)
       })
     })
 
@@ -289,7 +359,7 @@ let wrapper =
       })
 
 
-      it('Then selecting player 0 starts the clock for the selected player', (done) => {
+      it('Then selecting player 0 starts the clock for the selected player and resets times for other players', (done) => {
         wrapper.find('#playerBtn0').simulate('click')
 
         setTimeout(() => {
@@ -298,44 +368,85 @@ let wrapper =
           expect(wrapper.find('#playerClock2').text()).to.equal('30 : 00')
           expect(wrapper.find('#playerClock3').text()).to.equal('30 : 00')
 
+          expect(wrapper.find('#playerTimer0').text()).to.equal('1 : 59')
+          expect(wrapper.find('#playerTimer1').text()).to.equal('2 : 00')
+          expect(wrapper.find('#playerTimer2').text()).to.equal('2 : 00')
+          expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+
           done()
         }, 1500)
       }, 2000)
 
-      it('Then selecting player 1 starts the clock for the selected player', (done) => {
+      it('Then selecting player 1 starts the clock for the selected player and resets times for other players', (done) => {
+        wrapper.find('App').setState({
+          numberMinutes: 25,
+          clocks: [1500, 1500, 1500, 1500],
+          timerMinutes: 5,
+          timers: [300, 300, 300, 300]
+        })
+
         wrapper.find('#playerBtn1').simulate('click')
 
         setTimeout(() => {
-          expect(wrapper.find('#playerClock0').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock1').text()).to.equal('29 : 58')
-          expect(wrapper.find('#playerClock2').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock3').text()).to.equal('30 : 00')
+          expect(wrapper.find('#playerClock0').text()).to.equal('25 : 00')
+          expect(wrapper.find('#playerClock1').text()).to.equal('24 : 58')
+          expect(wrapper.find('#playerClock2').text()).to.equal('25 : 00')
+          expect(wrapper.find('#playerClock3').text()).to.equal('25 : 00')
+
+          expect(wrapper.find('#playerTimer0').text()).to.equal('5 : 00')
+          expect(wrapper.find('#playerTimer1').text()).to.equal('4 : 58')
+          expect(wrapper.find('#playerTimer2').text()).to.equal('5 : 00')
+          expect(wrapper.find('#playerTimer3').text()).to.equal('5 : 00')
 
           done()
         }, 2500)
       }, 3000)
 
-      it('Then selecting player 2 starts the clock for the selected player', (done) => {
+      it('Then selecting player 2 starts the clock for the selected player and resets times for other players', (done) => {
+        wrapper.find('App').setState({
+          numberMinutes: 20,
+          clocks: [1200, 1200, 1200, 1200],
+          timerMinutes: 4,
+          timers: [240, 240, 240, 240]
+        })
+
         wrapper.find('#playerBtn2').simulate('click')
 
         setTimeout(() => {
-          expect(wrapper.find('#playerClock0').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock1').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock2').text()).to.equal('29 : 57')
-          expect(wrapper.find('#playerClock3').text()).to.equal('30 : 00')
+          expect(wrapper.find('#playerClock0').text()).to.equal('20 : 00')
+          expect(wrapper.find('#playerClock1').text()).to.equal('20 : 00')
+          expect(wrapper.find('#playerClock2').text()).to.equal('19 : 57')
+          expect(wrapper.find('#playerClock3').text()).to.equal('20 : 00')
+
+          expect(wrapper.find('#playerTimer0').text()).to.equal('4 : 00')
+          expect(wrapper.find('#playerTimer1').text()).to.equal('4 : 00')
+          expect(wrapper.find('#playerTimer2').text()).to.equal('3 : 57')
+          expect(wrapper.find('#playerTimer3').text()).to.equal('4 : 00')
 
           done()
         }, 3500)
       }, 4000)
 
-      it('Then selecting player 3 starts the clock for the selected player', (done) => {
+      it('Then selecting player 3 starts the clock for the selected player and resets times for other players', (done) => {
+        wrapper.find('App').setState({
+          numberMinutes: 15,
+          clocks: [900, 900, 900, 900],
+          timerMinutes: 6,
+          timers: [360, 360, 360, 360]
+        })
+
         wrapper.find('#playerBtn3').simulate('click')
 
         setTimeout(() => {
-          expect(wrapper.find('#playerClock0').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock1').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock2').text()).to.equal('30 : 00')
-          expect(wrapper.find('#playerClock3').text()).to.equal('29 : 56')
+          expect(wrapper.find('#playerClock0').text()).to.equal('15 : 00')
+          expect(wrapper.find('#playerClock1').text()).to.equal('15 : 00')
+          expect(wrapper.find('#playerClock2').text()).to.equal('15 : 00')
+          expect(wrapper.find('#playerClock3').text()).to.equal('14 : 56')
+
+          expect(wrapper.find('#playerTimer0').text()).to.equal('6 : 00')
+          expect(wrapper.find('#playerTimer1').text()).to.equal('6 : 00')
+          expect(wrapper.find('#playerTimer2').text()).to.equal('6 : 00')
+          expect(wrapper.find('#playerTimer3').text()).to.equal('5 : 56')
 
           done()
         }, 4500)
@@ -450,8 +561,11 @@ let wrapper =
         wrapper = mount(<App />)
 
         wrapper.setState({
+          numberMinutes: 15,
+          clocks: [900, 900, 900, 900],
           playerSelected: 1,
           showSettings: false,
+          timerMinutes: 6,
           timers: [9, 0, 29, 120],
           extensions: [3, 5, 0, 2]
         })
@@ -479,7 +593,7 @@ let wrapper =
         expect(wrapper.find('#extDiv3').text()).to.equal('Extensions: 2')
       })
 
-      it(`Then selecting the active player's extension button when timer is 0 will reset the 2 mins and reduce the extensions left`, () => {
+      it(`Then selecting the active player's extension button when timer is 0 will reset the timer mins and reduce the extensions left`, () => {
         wrapper.find('#extDiv1').simulate('click')
 
         expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
@@ -487,10 +601,10 @@ let wrapper =
         expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv')
         expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
 
-        expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
-        expect(wrapper.find('#playerTimer1').text()).to.equal('2 : 00')
-        expect(wrapper.find('#playerTimer2').text()).to.equal('2 : 00')
-        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer0').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer1').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('6 : 00')
 
         expect(wrapper.find('#extDiv0').prop('className')).to.equal('extDiv')
         expect(wrapper.find('#extDiv1').prop('className')).to.equal('extDiv playerSelected')
@@ -504,17 +618,22 @@ let wrapper =
       })
 
       it(`Then selecting the active player's extension button when timer is NOT 0 will do nothing`, () => {
-        wrapper.find('App').setState({timers: [120, 60, 120, 120]})
+        wrapper.find('App').setState({
+          numberMinutes: 15,
+          clocks: [900, 900, 900, 900],
+          timerMinutes: 6,
+          timers: [360, 60, 360, 360]
+        })
 
         expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
         expect(wrapper.find('#timerDiv1').prop('className')).to.equal('timerDiv playerSelected')
         expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv')
         expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
 
-        expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer0').text()).to.equal('6 : 00')
         expect(wrapper.find('#playerTimer1').text()).to.equal('1 : 00')
-        expect(wrapper.find('#playerTimer2').text()).to.equal('2 : 00')
-        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('6 : 00')
 
         wrapper.find('#extDiv1').simulate('click')
 
@@ -523,10 +642,10 @@ let wrapper =
         expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv')
         expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
 
-        expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer0').text()).to.equal('6 : 00')
         expect(wrapper.find('#playerTimer1').text()).to.equal('1 : 00')
-        expect(wrapper.find('#playerTimer2').text()).to.equal('2 : 00')
-        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('6 : 00')
       })
     })
 
@@ -705,6 +824,7 @@ let wrapper =
 
         wrapper.setState({
           numberMinutes: 30,
+          timerMinutes: 3,
           names: ['Player1', 'Player2', 'Player4', 'Player3'],
           clocks: [1800, 1200, 600, 0],
           timers: [0, 40, 80, 120],
@@ -714,7 +834,8 @@ let wrapper =
           paused: true,
           playerQty: 4,
           rotate: false,
-          showSettings: true
+          showSettings: true,
+          extensionsQty: 3
         })
       })
 
@@ -728,6 +849,7 @@ let wrapper =
 
         expect(wrapper.find('App').state()).to.eql({
           numberMinutes: 30,
+          timerMinutes: 3,
           names: ['Player1', 'Player2', 'Player4', 'Player3'],
           clocks: [1800, 1200, 600, 0],
           timers: [0, 40, 80, 120],
@@ -737,7 +859,8 @@ let wrapper =
           paused: true,
           playerQty: 4,
           rotate: false,
-          showSettings: true
+          showSettings: true,
+          extensionsQty: 3
         })
 
 
@@ -748,16 +871,18 @@ let wrapper =
 
         expect(wrapper.find('App').state()).to.eql({
           numberMinutes: 30,
+          timerMinutes: 3,
           names: ['Player1', 'Player2', 'Player4', 'Player3'],
           clocks: [1800, 1800, 1800, 1800],
-          timers: [120, 120, 120, 120],
-          extensions: [5, 5, 5, 5],
+          timers: [180, 180, 180, 180],
+          extensions: [3, 3, 3, 3],
           playerSelected: 5,
           started: false,
           paused: false,
           playerQty: 4,
           rotate: false,
-          showSettings: false
+          showSettings: false,
+          extensionsQty: 3
         })
       })
     })
@@ -768,6 +893,7 @@ let wrapper =
 
         wrapper.setState({
           numberMinutes: 30,
+          timerMinutes: 2,
           names: ['Player1', 'Player2', 'Player4', 'Player3'],
           clocks: [1800, 1200, 600, 0],
           timers: [0, 40, 80, 120],
@@ -777,7 +903,8 @@ let wrapper =
           paused: true,
           playerQty: 4,
           rotate: false,
-          showSettings: false
+          showSettings: false,
+          extensionsQty: 5
         })
       })
 
@@ -793,6 +920,7 @@ let wrapper =
 
         expect(wrapper.find('App').state()).to.eql({
           numberMinutes: 30,
+          timerMinutes: 2,
           names: ['Player1', 'Player2', 'Player4', 'Player3'],
           clocks: [1800, 1200, 600, 0],
           timers: [0, 40, 80, 120],
@@ -802,8 +930,8 @@ let wrapper =
           paused: true,
           playerQty: 4,
           rotate: false,
-
-          showSettings: false
+          showSettings: false,
+          extensionsQty: 5
         })
 
 
@@ -814,6 +942,7 @@ let wrapper =
 
         expect(wrapper.find('App').state()).to.eql({
           numberMinutes: 30,
+          timerMinutes: 2,
           names: ['Player1', 'Player2', 'Player4', 'Player3'],
           clocks: [1800, 1200, 600, 0],
           timers: [0, 40, 80, 120],
@@ -823,8 +952,8 @@ let wrapper =
           paused: true,
           playerQty: 4,
           rotate: false,
-
-          showSettings: true
+          showSettings: true,
+          extensionsQty: 5
         })
       })
     })

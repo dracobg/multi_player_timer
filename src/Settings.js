@@ -41,12 +41,42 @@ function Settings(props) {
         </div>
         <input
           id='noMinsInput'
-          className='noMinsInput'
+          className='settingsInput'
           size='20'
           maxLength='2'
           type='text'
           value={props.numberMinutes}
           onChange={props.handleChangeMinutes}
+        />
+      </div>
+
+      <div id='setTimerMins' className='setClock'>
+        <div id='timerMinsLabel' className='settingsLabel'>
+          Turn Mins:
+        </div>
+        <input
+          id='timerMinsInput'
+          className='settingsInput'
+          size='20'
+          maxLength='1'
+          type='text'
+          value={props.timerMinutes}
+          onChange={props.handleChangeTimer}
+        />
+      </div>
+
+      <div id='setExtQty' className='setClock'>
+        <div id='extQtyLabel' className='settingsLabel'>
+          Extensions:
+        </div>
+        <input
+          id='extQtyInput'
+          className='settingsInput'
+          size='20'
+          maxLength='1'
+          type='text'
+          value={props.extensionsQty}
+          onChange={props.handleChangeExtensions}
         />
       </div>
 

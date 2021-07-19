@@ -27,7 +27,7 @@
   height:30px;
 }
 
-.noMinsInput {
+.settingsInput {
   font-size: 18px;
   width:100px;
   text-align: center;
@@ -257,7 +257,7 @@
     margin: 5px auto;
   }
   
-  .noMinsInput {
+  .settingsInput {
     font-size: 18px;
     width:100px;
     text-align: center;
