@@ -26,6 +26,7 @@ class App extends Component {
       started: false,
       paused: false,
       playerQty: 4,
+      rotate: true,
       showSettings: true
     }
 

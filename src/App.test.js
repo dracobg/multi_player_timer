@@ -119,34 +119,16 @@ let wrapper =
         expect(wrapper.find('#clocksDiv')).to.have.length(1)
 
         expect(wrapper.find('#clockDiv0')).to.have.length(1)
-        expect(wrapper.find('#clockDiv0').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv0').prop('className')).to.equal('clockDiv rotate')
 
         expect(wrapper.find('#clockDiv1')).to.have.length(1)
-        expect(wrapper.find('#clockDiv1').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv1').prop('className')).to.equal('clockDiv rotate')
 
         expect(wrapper.find('#clockDiv2')).to.have.length(1)
         expect(wrapper.find('#clockDiv2').prop('className')).to.equal('clockDiv')
 
         expect(wrapper.find('#clockDiv3')).to.have.length(1)
         expect(wrapper.find('#clockDiv3').prop('className')).to.equal('clockDiv')
-      })
-
-      it('Then it displays the player names', () => {
-        expect(wrapper.find('#playerNameTitle0')).to.have.length(1)
-        expect(wrapper.find('#playerNameTitle0').prop('className')).to.equal('playerNameTitle')
-        expect(wrapper.find('#playerNameTitle0').text()).to.equal('Player1')
-
-        expect(wrapper.find('#playerNameTitle1')).to.have.length(1)
-        expect(wrapper.find('#playerNameTitle1').prop('className')).to.equal('playerNameTitle')
-        expect(wrapper.find('#playerNameTitle1').text()).to.equal('Player2')
-
-        expect(wrapper.find('#playerNameTitle2')).to.have.length(1)
-        expect(wrapper.find('#playerNameTitle2').prop('className')).to.equal('playerNameTitle')
-        expect(wrapper.find('#playerNameTitle2').text()).to.equal('Player4')
-
-        expect(wrapper.find('#playerNameTitle3')).to.have.length(1)
-        expect(wrapper.find('#playerNameTitle3').prop('className')).to.equal('playerNameTitle')
-        expect(wrapper.find('#playerNameTitle3').text()).to.equal('Player3')
       })
 
       it('Then it displays the player buttons with clock displays', () => {
@@ -182,6 +164,33 @@ let wrapper =
         expect(wrapper.find('#playerTimer0')).to.have.length(1)
         expect(wrapper.find('#playerTimer0').prop('className')).to.equal('playerTimer')
         expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
+      })
+
+      it('Then it displays the player names', () => {
+        expect(wrapper.find('#playerNameTitle0')).to.have.length(1)
+        expect(wrapper.find('#playerNameTitle0').prop('className')).to.equal('playerNameTitle')
+        expect(wrapper.find('#playerNameTitle0').text()).to.equal('Player1')
+
+        expect(wrapper.find('#playerNameTitle1')).to.have.length(1)
+        expect(wrapper.find('#playerNameTitle1').prop('className')).to.equal('playerNameTitle')
+        expect(wrapper.find('#playerNameTitle1').text()).to.equal('Player2')
+
+        expect(wrapper.find('#playerNameTitle2')).to.have.length(1)
+        expect(wrapper.find('#playerNameTitle2').prop('className')).to.equal('playerNameTitle')
+        expect(wrapper.find('#playerNameTitle2').text()).to.equal('Player4')
+
+        expect(wrapper.find('#playerNameTitle3')).to.have.length(1)
+        expect(wrapper.find('#playerNameTitle3').prop('className')).to.equal('playerNameTitle')
+        expect(wrapper.find('#playerNameTitle3').text()).to.equal('Player3')
+      })
+
+      it('Then the player is not displayed if the name is blank', () => {
+        wrapper.setState({ names: ['Player1', '', 'Player4', 'Player3'] })
+
+        expect(wrapper.find('#displayClock0').prop('className')).to.equal('displayClock')
+        expect(wrapper.find('#displayClock1').prop('className')).to.equal('hideClock')
+        expect(wrapper.find('#displayClock2').prop('className')).to.equal('displayClock')
+        expect(wrapper.find('#displayClock3').prop('className')).to.equal('displayClock')
       })
     })
 
@@ -334,4 +343,182 @@ let wrapper =
       })
     })
 
+    describe('When a clocks are in different states', () => {
+      beforeEach(() => {
+        wrapper = mount(<App />)
+
+        wrapper.setState({
+          showSettings: false,
+          clocks: [300, 299, 0, 1800],
+          playerSelected: 3
+        })
+      })
+
+      it('Then the clocks have different colours', () => {
+        expect(wrapper.find('#playerBtn0').prop('className')).to.equal('clock')
+        expect(wrapper.find('#playerBtn1').prop('className')).to.equal('clock low')
+        expect(wrapper.find('#playerBtn2').prop('className')).to.equal('clock zero')
+        expect(wrapper.find('#playerBtn3').prop('className')).to.equal('clock playerSelected')
+      })
+    })
+
+    describe('When the turn timers are displayed', () => {
+      beforeEach(() => {
+        wrapper = mount(<App />)
+
+        wrapper.setState({
+          playerSelected: 1,
+          showSettings: false,
+          timers: [9, 0, 29, 120],
+          extensions: [3, 5, 0, 2]
+        })
+      })
+
+      it(`Then the timers display their values and the extensions are highlighted appropriately`, () => {
+        expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv critical')
+        expect(wrapper.find('#timerDiv1').prop('className')).to.equal('timerDiv zero')
+        expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv low')
+        expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
+
+        expect(wrapper.find('#playerTimer0').text()).to.equal('0 : 09')
+        expect(wrapper.find('#playerTimer1').text()).to.equal('0 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('0 : 29')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+
+        expect(wrapper.find('#extDiv0').prop('className')).to.equal('extDiv')
+        expect(wrapper.find('#extDiv1').prop('className')).to.equal('extDiv playerSelected')
+        expect(wrapper.find('#extDiv2').prop('className')).to.equal('extDiv zero')
+        expect(wrapper.find('#extDiv3').prop('className')).to.equal('extDiv low')
+
+        expect(wrapper.find('#extDiv0').text()).to.equal('Extensions: 3')
+        expect(wrapper.find('#extDiv1').text()).to.equal('Extensions: 5')
+        expect(wrapper.find('#extDiv2').text()).to.equal('Extensions: 0')
+        expect(wrapper.find('#extDiv3').text()).to.equal('Extensions: 2')
+      })
+
+      it(`Then selecting the active player's extension button will reset the 2 mins and reduce the extensions left`, () => {
+        wrapper.find('#extDiv1').simulate('click')
+        
+        expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv1').prop('className')).to.equal('timerDiv playerSelected')
+        expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
+
+        expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer1').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+
+        expect(wrapper.find('#extDiv0').prop('className')).to.equal('extDiv')
+        expect(wrapper.find('#extDiv1').prop('className')).to.equal('extDiv playerSelected')
+        expect(wrapper.find('#extDiv2').prop('className')).to.equal('extDiv zero')
+        expect(wrapper.find('#extDiv3').prop('className')).to.equal('extDiv low')
+
+        expect(wrapper.find('#extDiv0').text()).to.equal('Extensions: 3')
+        expect(wrapper.find('#extDiv1').text()).to.equal('Extensions: 4')
+        expect(wrapper.find('#extDiv2').text()).to.equal('Extensions: 0')
+        expect(wrapper.find('#extDiv3').text()).to.equal('Extensions: 2')
+      })
+    })
+
+    describe('When a player name is changed', () => {
+      beforeEach(() => {
+        wrapper = mount(<App />)
+
+        wrapper.setState({ showSettings: true })
+      })
+
+      it('Then player0 name is updated', () => {
+        const event = {target: { value: 'New Player Name 1' }}
+
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player1')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player2')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player4')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player3')
+
+        wrapper.find('#playerNameInput0').simulate('change', event)
+        
+
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('New Player Name 1')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player2')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player4')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player3')
+      })
+
+      it('Then player1 name is updated', () => {
+        const event = {target: { value: 'New Player Name 2' }}
+
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player1')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player2')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player4')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player3')
+
+        wrapper.find('#playerNameInput1').simulate('change', event)
+        
+
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player1')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('New Player Name 2')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player4')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player3')
+      })
+
+      it('Then player 1 name is updated', () => {
+        const event = {target: { value: 'New Player Name 3' }}
+
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player1')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player2')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('Player4')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player3')
+
+        wrapper.find('#playerNameInput2').simulate('change', event)
+        
+
+        expect(wrapper.find('#playerNameInput0').prop('value')).to.equal('Player1')
+        expect(wrapper.find('#playerNameInput1').prop('value')).to.equal('Player2')
+        expect(wrapper.find('#playerNameInput2').prop('value')).to.equal('New Player Name 3')
+        expect(wrapper.find('#playerNameInput3').prop('value')).to.equal('Player3')
+      })
+    })
+
+    describe('When rotate is selected/unselected', () => {
+      beforeEach(() => {
+        wrapper = mount(<App />)
+
+        wrapper.setState({
+          showSettings: false,
+          playerQty: 2,
+          rotate: true
+        })
+      })
+
+      it('Then player 0 is rotated for a 2 player game', () => {
+        expect(wrapper.find('#clockDiv0').prop('className')).to.equal('clockDiv rotate')
+        expect(wrapper.find('#clockDiv1').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv2')).to.have.length(0)
+        expect(wrapper.find('#clockDiv3')).to.have.length(0)
+
+        wrapper.find('App').setState({rotate: false})
+        
+        expect(wrapper.find('#clockDiv0').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv1').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv2')).to.have.length(0)
+        expect(wrapper.find('#clockDiv3')).to.have.length(0)
+      })
+
+      it('Then players 0 & 1 are rotated for a 4 player game', () => {
+        wrapper.find('App').setState({playerQty: 4})
+
+        expect(wrapper.find('#clockDiv0').prop('className')).to.equal('clockDiv rotate')
+        expect(wrapper.find('#clockDiv1').prop('className')).to.equal('clockDiv rotate')
+        expect(wrapper.find('#clockDiv2').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv3').prop('className')).to.equal('clockDiv')
+
+        wrapper.find('App').setState({rotate: false})
+        
+        expect(wrapper.find('#clockDiv0').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv1').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv2').prop('className')).to.equal('clockDiv')
+        expect(wrapper.find('#clockDiv3').prop('className')).to.equal('clockDiv')
+      })
+    })
   })

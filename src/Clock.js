@@ -22,7 +22,7 @@ function Clock(props) {
 
     return (
         <div id={'clockDiv' + props.index} className={rotateClock ? 'clockDiv rotate' : 'clockDiv'}>
-            <div id='displayClock' className={props.playerName === '' ? 'hideClock' : 'displayClock'}>
+            <div id={'displayClock' + props.index} className={props.playerName === '' ? 'hideClock' : 'displayClock'}>
                 <div id={'playerNameTitle' + props.index} className='playerNameTitle'>
                     {props.playerName}
                 </div>

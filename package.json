@@ -20,6 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "react-scripts test --env=jsdom --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -28,6 +29,12 @@
       "react-app/jest"
     ]
   },
+  
+  "collectCoverageFrom": [
+    "public/*.{js,jsx}",
+    "!**/node_modules/**",
+    "!**/index/**"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
