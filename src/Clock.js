@@ -21,15 +21,15 @@ function Clock(props) {
             (props.index === 1 && props.playerQty === 2) ||
             props.index === 3
         ) {
-            return 'interruptIcon left'
-        } else {
             return 'interruptIcon right'
+        } else {
+            return 'interruptIcon left'
         }
     }
 
-    // const handleInterrupt = () => {
-    //     props.handleInterrupt(props.index)
-    // }
+    const handleInterrupt = () => {
+        props.handleInterrupt(props.index)
+    }
 
     return (
         <div id={'clockDiv' + props.index} className={rotateClock ? 'clockDiv rotate' : 'clockDiv'}>
@@ -56,8 +56,7 @@ function Clock(props) {
                 </button>
 
                 <div>
-                    {/* <img id={'interruptIcon' + props.index} className={interruptIconClassName} alt='Interrupt' src={interruptIcon} onClick={handleInterrupt} /> */}
-                    <img id={'interruptIcon' + props.index} className={newInterruptIconClassName()} alt='Interrupt' src={interruptIcon} />
+                    <img id={'interruptIcon' + props.index} className={newInterruptIconClassName()} alt='Interrupt' src={interruptIcon} onClick={handleInterrupt} />
                 </div>
             </div>
         </div>

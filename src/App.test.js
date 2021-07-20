@@ -454,13 +454,13 @@ let wrapper =
 
       it('Then the same player being selected again pauses the clock', (done) => {
         expect(wrapper.find('App').state().started).to.be.false
-        expect(wrapper.find('App').state().paused).to.be.false
+        expect(wrapper.find('App').state().pausedPlayer[3]).to.be.false
 
         wrapper.find('#playerBtn3').simulate('click')
 
         setTimeout(() => {
           expect(wrapper.find('App').state().started).to.be.true
-          expect(wrapper.find('App').state().paused).to.be.false
+          expect(wrapper.find('App').state().pausedPlayer[3]).to.be.false
 
           expect(wrapper.find('#playerClock0').text()).to.equal('30 : 00')
           expect(wrapper.find('#playerClock1').text()).to.equal('30 : 00')
@@ -471,7 +471,7 @@ let wrapper =
 
           setTimeout(() => {
             expect(wrapper.find('App').state().started).to.be.true
-            expect(wrapper.find('App').state().paused).to.be.true
+            expect(wrapper.find('App').state().pausedPlayer[3]).to.be.true
 
             expect(wrapper.find('#playerClock0').text()).to.equal('30 : 00')
             expect(wrapper.find('#playerClock1').text()).to.equal('30 : 00')
@@ -596,15 +596,15 @@ let wrapper =
       it(`Then selecting the active player's extension button when timer is 0 will reset the timer mins and reduce the extensions left`, () => {
         wrapper.find('#extDiv1').simulate('click')
 
-        expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv critical')
         expect(wrapper.find('#timerDiv1').prop('className')).to.equal('timerDiv playerSelected')
-        expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv low')
         expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
 
-        expect(wrapper.find('#playerTimer0').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer0').text()).to.equal('0 : 09')
         expect(wrapper.find('#playerTimer1').text()).to.equal('6 : 00')
-        expect(wrapper.find('#playerTimer2').text()).to.equal('6 : 00')
-        expect(wrapper.find('#playerTimer3').text()).to.equal('6 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('0 : 29')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
 
         expect(wrapper.find('#extDiv0').prop('className')).to.equal('extDiv')
         expect(wrapper.find('#extDiv1').prop('className')).to.equal('extDiv playerSelected')
@@ -830,8 +830,9 @@ let wrapper =
           timers: [0, 40, 80, 120],
           extensions: [5, 3, 2, 0],
           playerSelected: 2,
+          playerInterrupting: 3,
           started: true,
-          paused: true,
+          pausedPlayer: [false, false, true, false],
           playerQty: 4,
           rotate: false,
           showSettings: true,
@@ -855,8 +856,9 @@ let wrapper =
           timers: [0, 40, 80, 120],
           extensions: [5, 3, 2, 0],
           playerSelected: 2,
+          playerInterrupting: 3,
           started: true,
-          paused: true,
+          pausedPlayer: [false, false, true, false],
           playerQty: 4,
           rotate: false,
           showSettings: true,
@@ -877,8 +879,9 @@ let wrapper =
           timers: [180, 180, 180, 180],
           extensions: [3, 3, 3, 3],
           playerSelected: 5,
+          playerInterrupting: 5,
           started: false,
-          paused: false,
+          pausedPlayer: [false, false, false, false],
           playerQty: 4,
           rotate: false,
           showSettings: false,
@@ -899,8 +902,9 @@ let wrapper =
           timers: [0, 40, 80, 120],
           extensions: [5, 3, 2, 0],
           playerSelected: 2,
+          playerInterrupting: 3,
           started: true,
-          paused: true,
+          pausedPlayer: [false, false, true, false],
           playerQty: 4,
           rotate: false,
           showSettings: false,
@@ -926,8 +930,9 @@ let wrapper =
           timers: [0, 40, 80, 120],
           extensions: [5, 3, 2, 0],
           playerSelected: 2,
+          playerInterrupting: 3,
           started: true,
-          paused: true,
+          pausedPlayer: [false, false, true, false],
           playerQty: 4,
           rotate: false,
           showSettings: false,
@@ -948,13 +953,170 @@ let wrapper =
           timers: [0, 40, 80, 120],
           extensions: [5, 3, 2, 0],
           playerSelected: 2,
+          playerInterrupting: 3,
           started: true,
-          paused: true,
+          pausedPlayer: [false, false, true, false],
           playerQty: 4,
           rotate: false,
           showSettings: true,
           extensionsQty: 5
         })
       })
+    })
+
+    describe('When the Stop button is clicked', () => {
+      beforeEach(() => {
+        wrapper = mount(<App />)
+
+        wrapper.setState({
+          clocks: [1800, 1800, 600, 0],
+          timers: [120, 0, 80, 120],
+          extensions: [0, 5, 4, 2],
+          playerSelected: 2,
+          started: false,
+          pausedPlayer: [false, false, false, false],
+          playerQty: 4,
+          showSettings: false
+        })
+      })
+
+      it('Then an interrupt by the active player does nothing', (done) => {
+        expect(wrapper.find('App').state().timers).to.eql([120, 0, 80, 120])
+        expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 600, 0])
+
+        wrapper.setState({
+          started: true
+        })
+
+        setTimeout(() => {
+          expect(wrapper.find('App').state().timers).to.eql([120, 0, 79, 120])
+          expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 599, 0])
+
+          wrapper.find('#interruptIcon2').simulate('click')
+        }, 1500)
+
+        setTimeout(() => {
+          expect(wrapper.find('App').state().timers).to.eql([120, 0, 78, 120])
+          expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 598, 0])
+
+          done()
+        }, 2500)
+
+      }, 3000)
+
+      it('Then an interrupt by a player who has no clock time remaining does nothing', (done) => {
+        expect(wrapper.find('App').state().timers).to.eql([120, 0, 80, 120])
+        expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 600, 0])
+
+        wrapper.setState({
+          started: true
+        })
+
+        setTimeout(() => {
+          expect(wrapper.find('App').state().timers).to.eql([120, 0, 79, 120])
+          expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 599, 0])
+
+          wrapper.find('#interruptIcon3').simulate('click')
+        }, 1500)
+
+        setTimeout(() => {
+          expect(wrapper.find('App').state().timers).to.eql([120, 0, 78, 120])
+          expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 598, 0])
+
+          done()
+        }, 2500)
+
+      }, 3000)
+
+      it('Then an interrupt by a player who has clock time remaining but no extensions remaining will pause the active player and start their clock/timer', (done) => {
+        expect(wrapper.find('App').state().timers).to.eql([120, 0, 80, 120])
+        expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 600, 0])
+
+        wrapper.setState({
+          started: true
+        })
+
+        setTimeout(() => {
+          expect(wrapper.find('App').state().timers).to.eql([120, 0, 79, 120])
+          expect(wrapper.find('App').state().clocks).to.eql([1800, 1800, 599, 0])
+
+          wrapper.find('#interruptIcon0').simulate('click')
+        }, 1500)
+
+        setTimeout(() => {
+          expect(wrapper.find('App').state().timers).to.eql([119, 0, 79, 120])
+          expect(wrapper.find('App').state().clocks).to.eql([1799, 1800, 599, 0])
+
+          done()
+        }, 2500)
+
+      }, 3000)
+
+      it(`Then selecting the interrupting player's extension button when timer is 0 will reset the timer mins and reduce the extensions left`, () => {
+        wrapper.setState({
+          timers: [120, 0, 80, 120],
+          extensions: [0, 5, 4, 2],
+          playerSelected: 2,
+          playerInterrupting: 1,
+          started: true,
+          pausedPlayer: [false, false, true, false],
+          playerQty: 4,
+          showSettings: false
+        })
+
+        expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv1').prop('className')).to.equal('timerDiv zero')
+        expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv playerSelected')
+        expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
+
+        expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer1').text()).to.equal('0 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('1 : 20')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+
+        expect(wrapper.find('#extDiv0').prop('className')).to.equal('extDiv zero')
+        expect(wrapper.find('#extDiv1').prop('className')).to.equal('extDiv')
+        expect(wrapper.find('#extDiv2').prop('className')).to.equal('extDiv playerSelected')
+        expect(wrapper.find('#extDiv3').prop('className')).to.equal('extDiv low')
+
+        expect(wrapper.find('#extDiv0').text()).to.equal('Extensions: 0')
+        expect(wrapper.find('#extDiv1').text()).to.equal('Extensions: 5')
+        expect(wrapper.find('#extDiv2').text()).to.equal('Extensions: 4')
+        expect(wrapper.find('#extDiv3').text()).to.equal('Extensions: 2')
+
+        wrapper.find('#extDiv1').simulate('click')
+
+        expect(wrapper.find('#timerDiv0').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv1').prop('className')).to.equal('timerDiv')
+        expect(wrapper.find('#timerDiv2').prop('className')).to.equal('timerDiv playerSelected')
+        expect(wrapper.find('#timerDiv3').prop('className')).to.equal('timerDiv')
+
+        expect(wrapper.find('#playerTimer0').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer1').text()).to.equal('2 : 00')
+        expect(wrapper.find('#playerTimer2').text()).to.equal('1 : 20')
+        expect(wrapper.find('#playerTimer3').text()).to.equal('2 : 00')
+
+        expect(wrapper.find('#extDiv0').prop('className')).to.equal('extDiv zero')
+        expect(wrapper.find('#extDiv1').prop('className')).to.equal('extDiv')
+        expect(wrapper.find('#extDiv2').prop('className')).to.equal('extDiv playerSelected')
+        expect(wrapper.find('#extDiv3').prop('className')).to.equal('extDiv low')
+
+        expect(wrapper.find('#extDiv0').text()).to.equal('Extensions: 0')
+        expect(wrapper.find('#extDiv1').text()).to.equal('Extensions: 4')
+        expect(wrapper.find('#extDiv2').text()).to.equal('Extensions: 4')
+        expect(wrapper.find('#extDiv3').text()).to.equal('Extensions: 2')
+      })
+
+      // TODO: need test for selecting same interrupting player - nothing changes
+
+      // TODO: need test for selecting different interrupting player - other times remain and new one is activated
+
+      // TODO: need test for selecting extension for interrupting player - extention allowed
+
+      // TODO: need test for selecting extension for non active or non interrupting player - extention NOT allowed
+
+      // TODO: need test for selecting the original player after being interrupted - interrupting players do not reset
+
+      // TODO: need test for selecting a different player after being interrupted - everything reset
     })
   })

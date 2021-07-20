@@ -24,8 +24,9 @@ class App extends Component {
       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer],
       extensions: [originalExtensions, originalExtensions, originalExtensions, originalExtensions],
       playerSelected: 5,
+      playerInterrupting: 5,
       started: false,
-      paused: false,
+      pausedPlayer: [false, false, false, false],
       playerQty: 4,
       rotate: true,
       showSettings: true,
@@ -44,7 +45,7 @@ class App extends Component {
     this.startGame = this.startGame.bind(this)
     this.setShowSettings = this.setShowSettings.bind(this)
     this.returnToGame = this.returnToGame.bind(this)
-    // this.handleInterrupt = this.handleInterrupt.bind(this)
+    this.handleInterrupt = this.handleInterrupt.bind(this)
   }
 
   componentDidMount() {
@@ -52,12 +53,24 @@ class App extends Component {
       let tempClocks = this.state.clocks
       let tempTimers = this.state.timers
 
-      if (this.state.started && !this.state.paused && this.state.clocks[this.state.playerSelected] > 0) {
+      if (this.state.started && !this.state.pausedPlayer[this.state.playerSelected] && this.state.clocks[this.state.playerSelected] > 0 ) {
         tempClocks[this.state.playerSelected] = tempClocks[this.state.playerSelected] - 1
 
         /* istanbul ignore else */
         if (this.state.timers[this.state.playerSelected] > 0) {
           tempTimers[this.state.playerSelected] = tempTimers[this.state.playerSelected] - 1
+        }
+
+        this.setState({
+          clocks: tempClocks,
+          timers: tempTimers
+        })
+      } else if (this.state.started && !this.state.pausedPlayer[this.state.playerInterrupting] && this.state.clocks[this.state.playerInterrupting] > 0 ) {
+        tempClocks[this.state.playerInterrupting] = tempClocks[this.state.playerInterrupting] - 1
+
+        /* istanbul ignore else */
+        if (this.state.timers[this.state.playerInterrupting] > 0) {
+          tempTimers[this.state.playerInterrupting] = tempTimers[this.state.playerInterrupting] - 1
         }
 
         this.setState({
@@ -146,8 +159,9 @@ class App extends Component {
       timers: [timerSeconds, timerSeconds, timerSeconds, timerSeconds],
       extensions: [extensionsQty, extensionsQty, extensionsQty, extensionsQty],
       playerSelected: 5,
+      playerInterrupting: 5,
       started: false,
-      paused: false,
+      pausedPlayer: [false, false, false, false],
       showSettings: false
     })
   }
@@ -159,44 +173,57 @@ class App extends Component {
   }
 
   useExtension(index) {
-    if (this.state.playerSelected === index && this.state.timers[index] === 0 && this.state.extensions[index] > 0) {
+    if ( (this.state.playerSelected === index || this.state.playerInterrupting === index) && this.state.timers[index] === 0 && this.state.extensions[index] > 0) {
       const tempExtensions = this.state.extensions
       tempExtensions[index] = this.state.extensions[index] - 1
 
-      const secondsTimer = this.state.timerMinutes * 60
+      const tempTimers = this.state.timers
+      tempTimers[index] = this.state.timerMinutes * 60
 
       this.setState({
         extensions: tempExtensions,
-        timers: [secondsTimer, secondsTimer, secondsTimer, secondsTimer]
+        timers: tempTimers
       })
     }
   }
 
-  // handleInterrupt(index) {
-  //   if (this.state.playerSelected === index && this.state.timers[index] === 0 && this.state.extensions[index] > 0) {
-  //     const tempExtensions = this.state.extensions
-  //     tempExtensions[index] = this.state.extensions[index] - 1
+  handleInterrupt(index) {
+    if (this.state.playerSelected !== index && this.state.clocks[index] !== 0) {
+      const tempPausedPlayer = this.state.pausedPlayer
 
-  //     this.setState({
-  //       extensions: tempExtensions,
-  //       timers: [originalSecondsTimer, originalSecondsTimer, originalSecondsTimer, originalSecondsTimer]
-  //     })
-  //   }
-  // }
+      tempPausedPlayer[this.state.playerSelected] = true
+
+      this.setState({
+        pausedPlayer: tempPausedPlayer,
+        playerInterrupting: index
+      })
+    }
+  }
 
   setSelectedPlayer(indexPlayer) {
-    if (indexPlayer !== this.state.playerSelected) {
-      const playerTimers = this.state.timerMinutes * 60
+    const tempPausedPlayer = this.state.pausedPlayer
+    const playerTimers = this.state.timerMinutes * 60
 
+    const tempTimers = [playerTimers, playerTimers, playerTimers, playerTimers]
+
+    if (indexPlayer !== this.state.playerSelected) {
+
+      tempPausedPlayer[indexPlayer] = false
+      
       this.setState({
         playerSelected: indexPlayer,
+        playerInterrupting: 5,
         started: true,
-        paused: false,
-        timers: [playerTimers, playerTimers, playerTimers, playerTimers]
+        pausedPlayer: tempPausedPlayer,
+        timers: tempTimers
       })
     } else {
+      tempPausedPlayer[indexPlayer] = !this.state.pausedPlayer[indexPlayer]
+      tempTimers[indexPlayer] = this.state.timers[indexPlayer]
+
       this.setState({
-        paused: !this.state.paused,
+        pausedPlayer: tempPausedPlayer,
+        playerInterrupting: 5
       })
     }
   }
@@ -222,11 +249,10 @@ class App extends Component {
           useExtension={this.useExtension}
           playerQty={this.state.playerQty}
           started={this.state.started}
-          paused={this.state.paused}
           rotate={this.state.rotate}
           showSettings={this.state.showSettings}
           setShowSettings={this.setShowSettings}
-        // handleInterrupt={this.handleInterrupt}
+          handleInterrupt={this.handleInterrupt}
         />
       )
     }

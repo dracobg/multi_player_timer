@@ -233,13 +233,13 @@
   border-radius: 20px;
 }
 
-.interruptIcon.left {
+.interruptIcon.right {
   position: relative;
   bottom: 20px;
   right: -50%;
 }
 
-.interruptIcon.right {
+.interruptIcon.left {
   position: relative;
   bottom: 20px;
   left: -50%;
