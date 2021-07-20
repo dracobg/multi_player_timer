@@ -201,24 +201,21 @@ class App extends Component {
   }
 
   setSelectedPlayer(indexPlayer) {
-    const tempPausedPlayer = this.state.pausedPlayer
     const playerTimers = this.state.timerMinutes * 60
-
     const tempTimers = [playerTimers, playerTimers, playerTimers, playerTimers]
-
-    if (indexPlayer !== this.state.playerSelected) {
-
-      tempPausedPlayer[indexPlayer] = false
-      
+    
+    if (indexPlayer !== this.state.playerSelected) {      
       this.setState({
         playerSelected: indexPlayer,
         playerInterrupting: 5,
         started: true,
-        pausedPlayer: tempPausedPlayer,
+        pausedPlayer: [false, false, false, false],
         timers: tempTimers
       })
     } else {
+      const tempPausedPlayer = this.state.pausedPlayer
       tempPausedPlayer[indexPlayer] = !this.state.pausedPlayer[indexPlayer]
+
       tempTimers[indexPlayer] = this.state.timers[indexPlayer]
 
       this.setState({
